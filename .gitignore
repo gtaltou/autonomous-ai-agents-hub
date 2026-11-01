@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary Files
+tmp/
+temp/
+
+# LangSmith
+.langsmith/
+
+# ChromaDB
+chroma/
+
+# Vector Stores
+vectorstore/
+
+# Local Databases
+*.db
+*.sqlite
+
+# Coverage
+.coverage.*
+coverage.xml
+
+# UV
+uv.lock
+
+# Secrets
+secrets/
+credentials/

@@ -1,0 +1,15 @@
+openai-agents
+
+pydantic
+
+python-dotenv
+
+rich
+
+typer
+
+pytest
+
+ruff
+
+mypy
