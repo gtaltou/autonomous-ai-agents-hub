@@ -170,6 +170,6 @@ Autonomous Organization
 
 ### 👨‍💻 Author
 
-**Bertrand Altou**
+**GT**
 
 Building production-grade AI Agent Systems.
