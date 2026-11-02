@@ -1,4 +1,5 @@
 import pytest
+
 from app.config import get_openai_api_key
 
 
