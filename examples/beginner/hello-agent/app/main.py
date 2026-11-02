@@ -1,11 +1,12 @@
 import asyncio
 import logging
 
+from agent import build_agent
+from config import get_openai_api_key, load_environment
+
 from agents import Runner
 
-from config import load_environment
-from config import get_openai_api_key
-from agent import build_agent
+logger = logging.getLogger(__name__)
 
 QUESTION = "Explain what an AI Agent is."
 
@@ -33,8 +34,7 @@ async def run_agent() -> str:
 
 
 async def main():
-
-    logging.info("Starting Hello Agent")
+    logger.info("Starting Hello Agent")
 
     answer = await run_agent()
 
@@ -44,8 +44,7 @@ async def main():
     print("\n🤖 Response:\n")
     print(answer)
 
-    logging.info("Execution completed")
-
+    logger.info("Execution completed")
 
 if __name__ == "__main__":
     asyncio.run(main())
