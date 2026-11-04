@@ -1,0 +1,6 @@
+[lint]
+select = ["E", "F", "I"]
+
+[lint.isort]
+known-first-party = ["app"]
+known-third-party = ["agents"]
