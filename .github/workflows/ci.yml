@@ -13,7 +13,7 @@ jobs:
 
   hello-agent:
 
-    name: Hello Agent Tests
+    name: Hello Agent
 
     runs-on: ubuntu-latest
 
@@ -22,31 +22,51 @@ jobs:
         working-directory: examples/beginner/hello-agent
 
     steps:
+      - uses: actions/checkout@v4
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Upgrade Pip
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ruff
+        run: |
+          python -m ruff check .
+
+      - name: Tests
+        run: |
+          pytest -v
+
+  tool-calling:
+
+    name: Tool Calling
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: examples/beginner/tool-calling
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install Dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Development Tools
+      - name: Ruff
         run: |
-          pip install pytest ruff
+          python -m ruff check .
 
-      - name: Run Ruff
-        run: |
-          ruff check .
-
-      - name: Run Tests
+      - name: Tests
         run: |
           pytest -v
