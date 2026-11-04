@@ -1,9 +1,10 @@
 import asyncio
 import logging
 
-from agent import build_agent
 from agents import Runner
-from config import (
+
+from app.agent import build_agent
+from app.config import (
     get_openai_api_key,
     load_environment,
 )

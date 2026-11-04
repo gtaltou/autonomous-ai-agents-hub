@@ -1,5 +1,6 @@
 from agents import Agent
-from tools import calculator
+
+from app.tools import calculator
 
 
 def build_agent() -> Agent:

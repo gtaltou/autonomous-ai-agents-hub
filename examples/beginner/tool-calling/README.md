@@ -103,13 +103,53 @@ tool-calling/
 └── .env.example
 ```
 
+
+## Implemented Tools
+
+### Calculator Tool
+
+Supported operations:
+
+```text
++
+-
+*
+/
+```
+
+Examples:
+
+```text
+What is 457 * 124?
+
+What is (145 + 87) * 3?
+
+What is 100 / 4?
+```
+
+## Example
+
+Question:
+
+```text
+What is 457 * 124?
+```
+
+Response:
+
+```text
+56,668
+```
+
+
 ---
 
 ## Run
 
 ```bash
-python app/main.py
+python -m app.main
 ```
+
 
 ---
 
@@ -137,19 +177,39 @@ python -m ruff check .
 
 ## Sprint Objectives
 
-- [ ] Tool Definitions
-- [ ] Tool Registration
-- [ ] Calculator Tool
+- [x] Tool Definitions
+- [x] Tool Registration
+- [x] Calculator Tool
+- [x] Tool Calling Workflow
+- [x] Unit Tests
+- [x] Ruff Validation
+- [x] Documentation
+
+Future Extensions:
+
 - [ ] Temperature Converter Tool
 - [ ] Date Tool
-- [ ] Tool Calling Workflow
-- [ ] Unit Tests
-- [ ] Documentation
+- [ ] Multi-Tool Agent
 
 ---
+
+
+## Validation
+
+✅ OpenAI Tool Calling operational
+
+✅ Calculator Tool operational
+
+✅ Ruff checks passing
+
+✅ Unit tests passing
+
+✅ End-to-End execution validated
 
 ## Expected Outcome
 
 At the end of this sprint, the agent will be capable of deciding when a tool should be used and how to use it effectively.
 
 This is the first step from a simple LLM-powered assistant to a true AI Agent.
+
+✅ Completed
