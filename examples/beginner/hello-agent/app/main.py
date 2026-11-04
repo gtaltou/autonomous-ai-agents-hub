@@ -2,8 +2,9 @@ import asyncio
 import logging
 
 from agent import build_agent
-from agents import Runner
 from config import get_openai_api_key, load_environment
+
+from agents import Runner
 
 logger = logging.getLogger(__name__)
 
