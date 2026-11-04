@@ -21,14 +21,14 @@ This repository is both:
 
 | Domain | Progress |
 |:---|:---:|
-| Repository Foundation | 🟩🟩🟩⬜⬜⬜⬜⬜⬜⬜ |
-| OpenAI Agents SDK | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
+| Repository Foundation | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 |
+| OpenAI Agents SDK | 🟩🟩🟩🟩🟩⬜⬜⬜⬜⬜ |
 | RAG Systems | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
 | MCP | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
 | LangGraph | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
 | CrewAI | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
 | AutoGen | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
-| Production Engineering | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ |
+| Production Engineering | 🟩🟩⬜⬜⬜⬜⬜⬜⬜⬜ |
 
 ---
 
@@ -50,7 +50,7 @@ This repository is both:
 
 | # | Project | Objective | Core Technologies | Status |
 |:---:|:---|:---|:---|:---:|
-| 01 | Research Assistant | Multi-agent research system | OpenAI Agents SDK | 🚧 |
+| 01 | Research Assistant | Multi-agent research system | OpenAI Agents SDK | ⏳ |
 | 02 | Knowledge Worker | Enterprise RAG assistant | ChromaDB, Embeddings | ⏳ |
 | 03 | MCP Developer Assistant | Tool-enabled AI Copilot | MCP, GitHub | ⏳ |
 | 04 | Code Review Agent | Automated code quality | OpenAI Agents SDK | ⏳ |
@@ -108,7 +108,7 @@ Create a professional development environment and establish repository engineeri
 | LICENSE | P0 | ✅ |
 | requirements.txt | P0 | ✅ |
 | .env.example | P0 | ✅ |
-| GitHub Actions | P1 | ⏳ |
+| GitHub Actions | P1 | ✅ |
 
 ### Deliverables
 
@@ -119,7 +119,7 @@ Create a professional development environment and establish repository engineeri
 | Engineering Standards | ✅ |
 | Local Development Environment | ✅ |
 | Versioning Strategy | ✅ |
-| Continuous Integration Foundation | ⏳ |
+| Continuous Integration Foundation | ✅ |
 
 ### Definition of Done
 
@@ -179,7 +179,7 @@ Master the foundations of modern AI agents and establish reusable engineering pa
 | Install SDK | ✅ |
 | Study Agent Lifecycle | ✅ |
 | Hello Agent | ✅ |
-| Tool Calling Example | ⏳ |
+| Tool Calling Example | ✅  |
 | Structured Output Example | ⏳ |
 | Evaluation Example | ⏳ |
 
@@ -188,11 +188,12 @@ Master the foundations of modern AI agents and establish reusable engineering pa
 | Example | Status |
 |:---|:---:|
 | Hello Agent | ✅ Completed |
-| Tool Calling | ⏳ Planned |
+| Tool Calling | ✅ Completed |
 | Structured Output | ⏳ Planned |
 | Evaluation | ⏳ Planned |
 
-**Progress:** 25%
+**Progress:** Sprint 02
+████████████████████░░░░░░░░░░ 50%
 
 ### Deliverables
 
@@ -216,36 +217,87 @@ examples/
     │   └── .env.example
     │
     ├── tool-calling/
+    │   ├── app/
+    │   │   ├── __init__.py
+    │   │   ├── agent.py
+    │   │   ├── config.py
+    │   │   ├── tools.py
+    │   │   └── main.py
+    │   │
+    │   ├── tests/
+    │   │   ├── test_agent.py
+    │   │   └── test_tools.py
+    │   │
+    │   ├── README.md
+    │   ├── pytest.ini
+    │   ├── requirements.txt
+    │   └── .env.example
+    │
     ├── structured-output/
+    │   ├── app/
+    │   ├── tests/
+    │   ├── README.md
+    │   ├── pytest.ini
+    │   ├── requirements.txt
+    │   └── .env.example
+    │
     └── evaluation/
+        ├── app/
+        ├── tests/
+        ├── README.md
+        ├── pytest.ini
+        ├── requirements.txt
+        └── .env.example
+```
+
+### Completed Deliverables
+
+✅ Hello Agent implemented
+
+✅ Calculator Tool implemented
+
+✅ OpenAI Tool Calling implemented
+
+✅ Unit Tests implemented
+
+✅ Ruff validation passing
+
+✅ End-to-End execution validated
+
+### Pending Deliverables
+
+⏳ Structured Output Example
+
+⏳ Evaluation Example
 ```
 
 ### Completed Achievements
+## Sprint 02
 
-✅ OpenAI Agents SDK installed
+✅ OpenAI Agents SDK Installed
 
-✅ Agent lifecycle understood
+✅ Environment Configuration Implemented
 
-✅ Environment configuration implemented
+✅ Hello Agent Completed
 
-✅ API key management implemented
+✅ Calculator Tool Implemented
 
-✅ Hello Agent architecture implemented
+✅ OpenAI Tool Calling Implemented
 
-✅ First successful model execution
+✅ Tool Execution Validated
 
-✅ Unit tests implemented
+✅ Unit Tests Passing
 
-✅ Pytest configuration operational
+✅ Ruff Validation Passing
 
-✅ 3/3 tests passing
+✅ End-to-End Workflow Validated
 
-✅ First production-ready example completed
+Current Sprint Progress: 50%
 
 ### Definition of Done
 
 - [x] Hello Agent implemented
-- [ ] Tool Calling implemented
+- [x] Tool Calling implemented
 - [ ] Structured Outputs implemented
 - [ ] Evaluation example implemented
 
@@ -263,11 +315,12 @@ examples/
 
 ```text
 Hello Agent          ✅ Completed
-Tool Calling         🚧 Next
+Tool Calling         ✅ Completed
 Structured Output    ⏳ Planned
 Evaluation           ⏳ Planned
 ```
-
+Sprint 02
+████████████████████░░░░░░░░░░ 50%
 **Status:** 🚧 In Progress
 
 # Sprint 03 — Research Assistant v1
