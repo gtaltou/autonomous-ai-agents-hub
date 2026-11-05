@@ -1,5 +1,20 @@
-"""
-Sprint 02.3
+from pydantic import BaseModel, Field
 
-Pydantic models will be implemented here.
-"""
+
+class Person(BaseModel):
+    """
+    Structured representation of a person extracted from text.
+    """
+
+    name: str = Field(
+        description="Full name of the person"
+    )
+
+    age: int = Field(
+        ge=0,
+        description="Age of the person"
+    )
+
+    city: str = Field(
+        description="City where the person lives"
+    )
