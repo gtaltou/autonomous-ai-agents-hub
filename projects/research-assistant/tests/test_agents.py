@@ -1,23 +1,20 @@
-from app.models import ResearchReport
+from app.agents.fact_checker import (
+    build_fact_checker_agent,
+)
+from app.agents.summarizer import (
+    build_summarizer_agent,
+)
 
 
-def test_research_report_model():
+def test_summarizer_agent_name():
 
-    report = ResearchReport(
-        topic="Quantum Computing",
-        executive_summary="Summary",
-        key_findings=[
-            "Finding 1",
-            "Finding 2",
-        ],
-        sources_reviewed=[
-            "IBM Quantum",
-            "Google Quantum AI",
-        ],
-        fact_check_notes="Reviewed for consistency.",
-        final_conclusion="Promising technology.",
-    )
+    agent = build_summarizer_agent()
 
-    assert report.topic == "Quantum Computing"
-    assert len(report.key_findings) == 2
-    assert len(report.sources_reviewed) == 2
+    assert agent.name == "Research Summarizer Agent"
+
+
+def test_fact_checker_agent_name():
+
+    agent = build_fact_checker_agent()
+
+    assert agent.name == "Research Fact Checker Agent"
