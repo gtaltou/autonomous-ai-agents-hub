@@ -1,27 +1,7 @@
 # Research Assistant
 
-## Status
+Multi-agent research system built with OpenAI Agents SDK.
 
-⏳ Planned
+Status: 🚧 In Progress
 
-## Objective
-
-To be defined during its implementation sprint.
-
-## Planned Technologies
-
-See ROADMAP.md for details.
-
-## Project Structure
-
-\\\	ext
-research-assistant/
-├── README.md
-└── (coming soon)
-\\\
-
-## Roadmap Position
-
-This project is part of the Autonomous AI Agents Hub engineering roadmap.
-
-Current status: Planning phase.
+Sprint: 03

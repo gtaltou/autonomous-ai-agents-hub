@@ -1,0 +1,5 @@
+openai-agents
+python-dotenv
+pydantic
+pytest==8.4.2
+ruff
