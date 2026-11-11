@@ -32,3 +32,22 @@ def test_workflow_description():
     assert description["fact_checker"] == (
         "Research Fact Checker Agent"
     )
+
+
+def test_workflow_run():
+    
+    workflow = ResearchWorkflow()
+
+    result = workflow.run(
+        "What is quantum computing?"
+    )
+
+    assert result["question"] == (
+        "What is quantum computing?"
+    )
+
+    assert "search_stage" in result
+
+    assert "summary_stage" in result
+
+    assert "fact_check_stage" in result

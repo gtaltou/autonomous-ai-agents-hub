@@ -40,3 +40,21 @@ class ResearchWorkflow:
             "summarizer": self.summarizer.name,
             "fact_checker": self.fact_checker.name,
         }
+
+    def run(
+    self,
+    question: str,
+) -> dict:
+
+        return {
+            "question": question,
+            "search_stage": (
+                f"{self.search.name} analyzed the question."
+            ),
+            "summary_stage": (
+                f"{self.summarizer.name} summarized the findings."
+            ),
+            "fact_check_stage": (
+                f"{self.fact_checker.name} reviewed the summary."
+            ),
+        }

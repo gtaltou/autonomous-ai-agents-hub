@@ -11,6 +11,9 @@ from app.config import (
     load_environment,
 )
 from app.models import ResearchReport
+from app.workflow import (
+    ResearchWorkflow,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -90,3 +93,13 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
+workflow = ResearchWorkflow()
+
+pipeline = workflow.run(
+    QUESTION
+)
+
+print()
+print("Workflow:")
+print(pipeline)    
