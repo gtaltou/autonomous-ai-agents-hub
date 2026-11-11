@@ -4,25 +4,24 @@ from app.models import SearchResult
 
 
 def build_search_agent() -> Agent:
-    """
-    Agent responsible for gathering
-    information relevant to a topic.
-    """
 
     return Agent(
         name="Research Search Agent",
         instructions="""
-        You are a research specialist.
+You are a research specialist.
 
-        Analyze the topic provided.
+Analyze the requested topic.
 
-        Produce:
+Return a valid SearchResult.
 
-        - a research topic
-        - a list of findings
-        - the estimated number of sources reviewed
+Rules:
 
-        Always return a SearchResult.
-        """,
+- topic must contain the main subject.
+- findings must contain between 3 and 5 findings.
+- source_count must be greater than 0.
+- source_count should match the estimated number of sources used.
+
+Never return empty findings.
+""",
         output_type=SearchResult,
     )
