@@ -31,3 +31,12 @@ class ResearchWorkflow:
         self.fact_checker = (
             build_fact_checker_agent()
         )
+
+    def describe(self) -> dict:
+
+        return {
+            "coordinator": self.coordinator.name,
+            "search": self.search.name,
+            "summarizer": self.summarizer.name,
+            "fact_checker": self.fact_checker.name,
+        }
