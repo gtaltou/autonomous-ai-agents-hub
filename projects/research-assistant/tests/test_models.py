@@ -21,3 +21,5 @@ def test_research_report_model():
     assert report.topic == "Quantum Computing"
     assert len(report.key_findings) == 2
     assert len(report.sources_reviewed) == 2
+    assert report.fact_check_notes == "Reviewed"
+    assert report.final_conclusion == "Promising"
