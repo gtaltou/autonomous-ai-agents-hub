@@ -1,5 +1,7 @@
 from agents import Agent
 
+from app.models import SearchResult
+
 
 def build_search_agent() -> Agent:
     """
@@ -12,16 +14,15 @@ def build_search_agent() -> Agent:
         instructions="""
         You are a research specialist.
 
-        Analyze the requested topic.
+        Analyze the topic provided.
 
-        Identify the most relevant information.
+        Produce:
 
-        Focus on:
-        - key concepts
-        - important facts
-        - major trends
-        - useful references
+        - a research topic
+        - a list of findings
+        - the estimated number of sources reviewed
 
-        Return concise and relevant findings.
+        Always return a SearchResult.
         """,
+        output_type=SearchResult,
     )

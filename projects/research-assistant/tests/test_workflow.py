@@ -1,3 +1,4 @@
+from app.models import ResearchReport
 from app.workflow import ResearchWorkflow
 
 
@@ -6,9 +7,9 @@ def test_workflow_creation():
     workflow = ResearchWorkflow()
 
     assert workflow.coordinator is not None
-    assert workflow.search is not None
-    assert workflow.summarizer is not None
-    assert workflow.fact_checker is not None
+    assert workflow.search_agent is not None
+    assert workflow.summarizer_agent is not None
+    assert workflow.fact_checker_agent is not None
 
 
 def test_workflow_description():
@@ -35,19 +36,23 @@ def test_workflow_description():
 
 
 def test_workflow_run():
-    
+
     workflow = ResearchWorkflow()
 
-    result = workflow.run(
+    report = workflow.run(
         "What is quantum computing?"
     )
 
-    assert result["question"] == (
-        "What is quantum computing?"
+    assert isinstance(
+        report,
+        ResearchReport,
     )
 
-    assert "search_stage" in result
+    assert (
+        report.executive_summary
+        is not None
+    )
 
-    assert "summary_stage" in result
-
-    assert "fact_check_stage" in result
+    assert len(
+        report.key_findings
+    ) > 0

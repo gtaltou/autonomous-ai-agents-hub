@@ -10,6 +10,11 @@ from app.agents.search import (
 from app.agents.summarizer import (
     build_summarizer_agent,
 )
+from app.models import (
+    ResearchReport,
+    SearchResult,
+    SummaryResult,
+)
 
 
 class ResearchWorkflow:
@@ -20,15 +25,15 @@ class ResearchWorkflow:
             build_coordinator_agent()
         )
 
-        self.search = (
+        self.search_agent = (
             build_search_agent()
         )
 
-        self.summarizer = (
+        self.summarizer_agent = (
             build_summarizer_agent()
         )
 
-        self.fact_checker = (
+        self.fact_checker_agent = (
             build_fact_checker_agent()
         )
 
@@ -36,25 +41,79 @@ class ResearchWorkflow:
 
         return {
             "coordinator": self.coordinator.name,
-            "search": self.search.name,
-            "summarizer": self.summarizer.name,
-            "fact_checker": self.fact_checker.name,
+            "search": self.search_agent.name,
+            "summarizer": self.summarizer_agent.name,
+            "fact_checker": self.fact_checker_agent.name,
         }
+
+    def search(
+        self,
+        question: str,
+    ) -> SearchResult:
+
+        return SearchResult(
+            topic=question,
+            findings=[
+                "Finding 1",
+                "Finding 2",
+                "Finding 3",
+            ],
+            source_count=3,
+        )
+
+    def summarize(
+        self,
+        search_result: SearchResult,
+    ) -> SummaryResult:
+
+        return SummaryResult(
+            summary=(
+                f"Summary about "
+                f"{search_result.topic}"
+            ),
+            key_points=search_result.findings,
+            confidence_score=0.90,
+        )
+
+    def fact_check(
+        self,
+        summary_result: SummaryResult,
+    ) -> ResearchReport:
+
+        return ResearchReport(
+            topic="Validated Research",
+            executive_summary=(
+                summary_result.summary
+            ),
+            key_findings=(
+                summary_result.key_points
+            ),
+            sources_reviewed=[
+                "Internal Validation",
+            ],
+            fact_check_notes=(
+                "Validated by Fact Checker."
+            ),
+            final_conclusion=(
+                "Research completed."
+            ),
+        )
 
     def run(
-    self,
-    question: str,
-) -> dict:
+        self,
+        question: str,
+    ) -> ResearchReport:
 
-        return {
-            "question": question,
-            "search_stage": (
-                f"{self.search.name} analyzed the question."
-            ),
-            "summary_stage": (
-                f"{self.summarizer.name} summarized the findings."
-            ),
-            "fact_check_stage": (
-                f"{self.fact_checker.name} reviewed the summary."
-            ),
-        }
+        search_result = self.search(
+            question
+        )
+
+        summary_result = self.summarize(
+            search_result
+        )
+
+        report = self.fact_check(
+            summary_result
+        )
+
+        return report

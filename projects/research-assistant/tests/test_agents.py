@@ -10,7 +10,10 @@ from app.agents.search import (
 from app.agents.summarizer import (
     build_summarizer_agent,
 )
-from app.models import ResearchReport
+from app.models import (
+    ResearchReport,
+    SearchResult,
+)
 
 
 def test_coordinator_agent_name():
@@ -32,6 +35,13 @@ def test_search_agent_name():
     agent = build_search_agent()
 
     assert agent.name == "Research Search Agent"
+
+
+def test_search_agent_output_type():
+
+    agent = build_search_agent()
+
+    assert agent.output_type == SearchResult
 
 
 def test_summarizer_agent_name():

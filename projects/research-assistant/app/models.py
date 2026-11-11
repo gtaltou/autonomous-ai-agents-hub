@@ -15,6 +15,10 @@ class SearchResult(BaseModel):
         description="Research findings"
     )
 
+    source_count: int = Field(
+        description="Number of sources reviewed"
+    )
+
 
 class SummaryResult(BaseModel):
     """
@@ -28,6 +32,10 @@ class SummaryResult(BaseModel):
     key_points: list[str] = Field(
         default_factory=list,
         description="Key summary points"
+    )
+
+    confidence_score: float = Field(
+        description="Confidence score of the summary"
     )
 
 
