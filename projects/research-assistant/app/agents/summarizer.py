@@ -1,33 +1,24 @@
 from agents import Agent
 
+from app.models import SummaryResult
+
 
 def build_summarizer_agent() -> Agent:
-    """
-    Agent responsible for synthesizing
-    research findings into concise,
-    structured summaries.
-    """
 
     return Agent(
         name="Research Summarizer Agent",
         instructions="""
         You are a research summarization specialist.
 
-        Your responsibility is to transform
-        research findings into clear and
-        concise summaries.
+        Analyze the findings provided.
 
-        Focus on:
+        Return:
 
-        - key insights
-        - major findings
-        - relevance
-        - clarity
-        - accuracy
+        - summary
+        - key_points
+        - confidence_score
 
-        Avoid unnecessary details.
-
-        Produce structured and actionable
-        summaries suitable for research reports.
+        Always return a valid SummaryResult.
         """,
+        output_type=SummaryResult,
     )
