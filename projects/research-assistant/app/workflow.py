@@ -23,6 +23,9 @@ from app.serializers.research import (
     search_result_to_prompt,
     summary_result_to_prompt,
 )
+from app.logging.execution_logger import (
+    ExecutionLogger,
+)
 
 
 class WorkflowError(Exception):
@@ -221,45 +224,108 @@ class ResearchWorkflow:
         question: str,
     ) -> SearchResult:
 
-        return await self._run_agent_with_retry(
-            agent=self.search_agent,
-            agent_input=question,
-            expected_type=SearchResult,
+        ExecutionLogger.info(
+            "Search Agent started"
         )
+
+        try:
+
+            result = await self._run_agent_with_retry(
+                agent=self.search_agent,
+                agent_input=question,
+                expected_type=SearchResult,
+            )
+
+            ExecutionLogger.info(
+                "Search Agent completed"
+            )
+
+            return result
+
+        except Exception as error:
+
+            ExecutionLogger.error(
+                f"Search Agent failed: {error}"
+            )
+
+            raise
 
     async def summarize_real(
         self,
         search_result: SearchResult,
     ) -> SummaryResult:
 
-        summary_input = (
-            search_result_to_prompt(
-                search_result
-            )
+        ExecutionLogger.info(
+            "Summarizer Agent started"
         )
 
-        return await self._run_agent_with_retry(
-            agent=self.summarizer_agent,
-            agent_input=summary_input,
-            expected_type=SummaryResult,
-        )
+        try:
+
+            summary_input = (
+                search_result_to_prompt(
+                    search_result
+                )
+            )
+
+            result = await self._run_agent_with_retry(
+                agent=self.summarizer_agent,
+                agent_input=summary_input,
+                expected_type=SummaryResult,
+            )
+
+            ExecutionLogger.info(
+                "Summarizer Agent completed"
+            )
+
+            return result
+
+        except Exception as error:
+
+            ExecutionLogger.error(
+                f"Summarizer Agent failed: "
+                f"{error}"
+            )
+
+            raise
 
     async def fact_check_real(
         self,
         summary_result: SummaryResult,
     ) -> ResearchReport:
 
-        report_input = (
-            summary_result_to_prompt(
-                summary_result
-            )
+        ExecutionLogger.info(
+            "Fact Checker Agent started"
         )
 
-        return await self._run_agent_with_retry(
-            agent=self.fact_checker_agent,
-            agent_input=report_input,
-            expected_type=ResearchReport,
-        )
+        try:
+
+            report_input = (
+                summary_result_to_prompt(
+                    summary_result
+                )
+            )
+
+            result = await self._run_agent_with_retry(
+                agent=self.fact_checker_agent,
+                agent_input=report_input,
+                expected_type=ResearchReport,
+            )
+
+            ExecutionLogger.info(
+                "Fact Checker Agent completed"
+            )
+
+            return result
+
+        except Exception as error:
+
+            ExecutionLogger.error(
+                f"Fact Checker Agent failed: "
+                f"{error}"
+            )
+
+            raise
+		
 
     async def run_real(
         self,
