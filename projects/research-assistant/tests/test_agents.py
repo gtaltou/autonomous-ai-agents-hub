@@ -56,3 +56,8 @@ def test_fact_checker_agent_name():
     agent = build_fact_checker_agent()
 
     assert agent.name == "Research Fact Checker Agent"
+def test_fact_checker_agent_output_type():
+
+    agent = build_fact_checker_agent()
+
+    assert agent.output_type == ResearchReport

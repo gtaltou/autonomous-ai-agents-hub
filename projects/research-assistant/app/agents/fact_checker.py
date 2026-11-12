@@ -1,5 +1,9 @@
 from agents import Agent
 
+from app.models import (
+    ResearchReport,
+)
+
 
 def build_fact_checker_agent() -> Agent:
     """
@@ -22,8 +26,18 @@ def build_fact_checker_agent() -> Agent:
         - missing context
         - factual accuracy
 
-        Highlight potential issues.
+        Produce a complete research report.
 
-        Focus on reliability and evidence.
+        Return:
+
+        - topic
+        - executive_summary
+        - key_findings
+        - sources_reviewed
+        - fact_check_notes
+        - final_conclusion
+
+        Always return a valid ResearchReport.
         """,
+        output_type=ResearchReport,
     )
