@@ -15,6 +15,9 @@ from app.agents.search import (
 from app.agents.summarizer import (
     build_summarizer_agent,
 )
+from app.logging.execution_logger import (
+    ExecutionLogger,
+)
 from app.models import (
     ResearchReport,
     SearchResult,
@@ -23,9 +26,6 @@ from app.models import (
 from app.serializers.research import (
     search_result_to_prompt,
     summary_result_to_prompt,
-)
-from app.logging.execution_logger import (
-    ExecutionLogger,
 )
 
 

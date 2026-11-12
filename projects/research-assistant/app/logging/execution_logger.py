@@ -68,3 +68,20 @@ class ExecutionLogger:
             f"{name}: "
             f"{duration:.2f}s"
         )
+    @staticmethod
+    def success(
+        message: str,
+    ) -> None:
+
+        timestamp = (
+            datetime.now()
+            .isoformat(
+                timespec="seconds"
+            )
+        )
+
+        print(
+            f"[SUCCESS] "
+            f"[{timestamp}] "
+            f"{message}"
+        )
