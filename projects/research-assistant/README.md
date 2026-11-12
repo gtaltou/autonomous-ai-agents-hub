@@ -4,9 +4,11 @@ Multi-agent research system built with OpenAI Agents SDK.
 
 ## Status
 
-🚧 In Progress
+✅ Sprint 03 Completed
 
-**Sprint:** 03
+**Current Sprint:** 04
+
+**Current Phase:** Production Readiness
 
 ---
 
@@ -28,28 +30,26 @@ Its purpose is to transform a user question into a structured and verifiable res
 
 ---
 
-## Target Architecture
+## Current Architecture
 
 ```mermaid
 flowchart TD
 
     User[User Question]
 
-    User --> Coordinator[Coordinator Agent]
+    User --> Search[Search Agent]
 
-    Coordinator --> Search[Search Agent]
-    Coordinator --> Summary[Summarizer Agent]
-    Coordinator --> FactCheck[Fact Checker Agent]
+    Search --> SearchResult[SearchResult]
 
-    Search --> Sources[Research Sources]
+    SearchResult --> Summarizer[Summarizer Agent]
 
-    Sources --> Summary
+    Summarizer --> SummaryResult[SummaryResult]
 
-    Summary --> FactCheck
+    SummaryResult --> FactChecker[Fact Checker Agent]
 
-    FactCheck --> Report[Research Report]
+    FactChecker --> ResearchReport[ResearchReport]
 
-    Report --> User
+    ResearchReport --> User
 ```
 
 ---
@@ -58,14 +58,19 @@ flowchart TD
 
 ### Coordinator Agent
 
-Responsible for the overall workflow.
+Responsible for workflow orchestration.
 
 Responsibilities:
 
-- Receive the user request
-- Delegate work to specialized agents
-- Aggregate results
-- Produce final output
+- Coordinate workflow execution
+- Manage agent interactions
+- Supervise report generation
+
+Status:
+
+```text
+✅ Implemented
+```
 
 ---
 
@@ -75,9 +80,23 @@ Responsible for information gathering.
 
 Responsibilities:
 
-- Extract key topics
-- Collect relevant information
-- Return source material to the workflow
+- Analyze research topics
+- Collect findings
+- Produce SearchResult outputs
+
+Output:
+
+```text
+SearchResult
+```
+
+Status:
+
+```text
+✅ Implemented
+✅ Structured Output
+✅ Real OpenAI Execution
+```
 
 ---
 
@@ -87,9 +106,23 @@ Responsible for information synthesis.
 
 Responsibilities:
 
-- Analyze collected information
-- Identify key insights
+- Analyze search findings
+- Extract key insights
 - Produce structured summaries
+
+Output:
+
+```text
+SummaryResult
+```
+
+Status:
+
+```text
+✅ Implemented
+✅ Structured Output
+✅ Real OpenAI Execution
+```
 
 ---
 
@@ -102,6 +135,131 @@ Responsibilities:
 - Review findings
 - Detect inconsistencies
 - Validate report accuracy
+- Produce final report
+
+Output:
+
+```text
+ResearchReport
+```
+
+Status:
+
+```text
+✅ Implemented
+✅ Structured Output
+✅ Real OpenAI Execution
+```
+
+---
+
+## Data Contracts
+
+### SearchResult
+
+```text
+topic
+findings
+source_count
+```
+
+---
+
+### SummaryResult
+
+```text
+summary
+key_points
+confidence_score
+```
+
+---
+
+### ResearchReport
+
+```text
+topic
+executive_summary
+key_findings
+sources_reviewed
+fact_check_notes
+final_conclusion
+```
+
+---
+
+## Workflow Engine
+
+Current workflow:
+
+```text
+Question
+    ↓
+Search Agent
+    ↓
+SearchResult
+
+    ↓
+
+Summarizer Agent
+    ↓
+SummaryResult
+
+    ↓
+
+Fact Checker Agent
+    ↓
+ResearchReport
+```
+
+Capabilities:
+
+```text
+✅ Structured Outputs
+
+✅ Agent Handoffs
+
+✅ Serialization Layer
+
+✅ Workflow Orchestration
+
+✅ Retry Logic
+
+✅ Timeout Handling
+
+✅ Exponential Backoff
+
+✅ End-to-End Execution
+```
+
+---
+
+## Serialization Layer
+
+The workflow uses dedicated serializers to transform agent outputs into prompts for downstream agents.
+
+```text
+SearchResult
+    ↓
+Serializer
+    ↓
+Summarizer Agent
+```
+
+```text
+SummaryResult
+    ↓
+Serializer
+    ↓
+Fact Checker Agent
+```
+
+Benefits:
+
+- Separation of concerns
+- Reusable formatting logic
+- Easier testing
+- Cleaner workflows
 
 ---
 
@@ -143,6 +301,7 @@ Final Conclusion:
 research-assistant/
 │
 ├── README.md
+├── ROADMAP.md
 ├── requirements.txt
 ├── pytest.ini
 ├── .env.example
@@ -151,106 +310,167 @@ research-assistant/
 │   ├── __init__.py
 │   │
 │   ├── agents/
-│   │   ├── __init__.py
 │   │   ├── coordinator.py
 │   │   ├── search.py
 │   │   ├── summarizer.py
 │   │   └── fact_checker.py
 │   │
+│   ├── serializers/
+│   │   └── research.py
+│   │
 │   ├── models.py
+│   ├── workflow.py
 │   ├── config.py
-│   └── main.py
+│   │
+│   ├── playground.py
+│   ├── playground_summary.py
+│   └── playground_workflow.py
 │
 └── tests/
     ├── test_agents.py
-    └── test_models.py
+    ├── test_models.py
+    ├── test_serializers.py
+    └── test_workflow.py
 ```
 
 ---
 
-## Development Roadmap
+## Development Progress
 
-### Sprint 03.1
+### Sprint 03.1 — Foundation
 
-#### Foundation
+```text
+✅ ResearchReport Model
 
-- [ ] ResearchReport model
-- [ ] Coordinator Agent
-- [ ] Search Agent
-- [ ] Basic workflow
+✅ Coordinator Agent
 
----
+✅ Search Agent
 
-### Sprint 03.2
-
-#### Research Processing
-
-- [ ] Summarizer Agent
-- [ ] Structured outputs
-- [ ] Report generation
+✅ Basic Workflow
+```
 
 ---
 
-### Sprint 03.3
+### Sprint 03.2 — Research Processing
 
-#### Quality Layer
+```text
+✅ Summarizer Agent
 
-- [ ] Fact Checker Agent
-- [ ] Validation workflow
-- [ ] Multi-agent orchestration
+✅ Structured Outputs
+
+✅ Report Generation
+```
 
 ---
 
-### Sprint 03.4
+### Sprint 03.3 — Quality Layer
 
-#### Production Readiness
+```text
+✅ Fact Checker Agent
 
-- [ ] Evaluation suite
-- [ ] CI integration
-- [ ] Documentation
-- [ ] v1.0.0 Release
+✅ Validation Workflow
+
+✅ Multi-Agent Orchestration
+
+✅ Agent Handoffs
+```
+
+---
+
+### Sprint 03.4 — Real Execution
+
+```text
+✅ OpenAI Agent Execution
+
+✅ SearchResult
+
+✅ SummaryResult
+
+✅ ResearchReport
+
+✅ Serialization Layer
+
+✅ Workflow Engine
+
+✅ Retry Logic
+
+✅ Timeouts
+
+✅ Exponential Backoff
+
+✅ End-to-End Workflow
+```
 
 ---
 
 ## Current Milestone
 
-### Sprint 03.1
+### Sprint 03 ✅ COMPLETED
 
-Current focus:
+Delivered:
 
 ```text
-✅ Project Structure
+✅ Multi-Agent Research Workflow
 
-✅ Documentation
+✅ Structured Outputs
 
-⬜ ResearchReport Model
+✅ Serialization Layer
 
-⬜ Coordinator Agent
+✅ Retry Engine
 
-⬜ Search Agent
+✅ Timeout Management
 
-⬜ Workflow Integration
+✅ End-to-End Research Report Generation
+
+✅ 15 Passing Tests
+
+✅ Ruff Validation
 ```
 
 ---
 
 ## Validation Criteria
 
-The project milestone will be considered complete when:
+Completed:
 
-- Multi-agent workflow is operational
-- Structured research reports are generated
-- Evaluation tests pass
-- Ruff validation passes
-- GitHub Actions pass
-- Documentation is complete
+```text
+✅ Multi-agent workflow operational
+
+✅ Structured reports generated
+
+✅ Pytest passing
+
+✅ Ruff validation passing
+
+✅ End-to-End execution validated
+
+✅ Documentation updated
+```
 
 ---
 
 ## Run
 
+### Full Workflow
+
 ```bash
-python -m app.main
+python -m app.playground_workflow
+```
+
+---
+
+### Search Agent
+
+```bash
+python -m app.playground
+```
+
+---
+
+### Search → Summary Handoff
+
+```bash
+python -m app.playground_summary
 ```
 
 ---
@@ -261,12 +481,24 @@ python -m app.main
 python -m pytest -v
 ```
 
+Current Status:
+
+```text
+✅ 15 tests passing
+```
+
 ---
 
 ## Quality Checks
 
 ```bash
 python -m ruff check .
+```
+
+Current Status:
+
+```text
+✅ All checks passed
 ```
 
 ---
@@ -277,17 +509,40 @@ This project introduces:
 
 - Multi-agent orchestration
 - Agent specialization
+- Structured Outputs
 - Agent collaboration
 - Workflow coordination
 - Research pipelines
-- Structured reporting
+- Serialization layers
+- Retry strategies
+- Timeout management
 - Production-ready design patterns
 
 ---
 
 ## Next Evolution
 
-After the Research Assistant, the roadmap continues with:
+Sprint 04 — Production Readiness
+
+Planned work:
+
+```text
+Execution Logging
+        ↓
+Workflow Metrics
+        ↓
+Markdown Export
+        ↓
+CLI Interface
+        ↓
+Evaluation Framework
+        ↓
+Multi-Topic Research
+```
+
+---
+
+## Roadmap Position
 
 ```text
 Research Assistant
