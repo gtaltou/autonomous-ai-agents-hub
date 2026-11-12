@@ -1,3 +1,5 @@
+import asyncio
+
 from agents import Runner
 
 from app.agents.coordinator import (
@@ -17,6 +19,14 @@ from app.models import (
     SearchResult,
     SummaryResult,
 )
+from app.serializers.research import (
+    search_result_to_prompt,
+    summary_result_to_prompt,
+)
+
+
+class WorkflowError(Exception):
+    """Workflow execution error."""
 
 
 class ResearchWorkflow:
@@ -125,6 +135,84 @@ class ResearchWorkflow:
         return report
 
     #
+    # Shared retry engine
+    #
+
+    async def _run_agent_with_retry(
+        self,
+        agent,
+        agent_input: str,
+        expected_type,
+        timeout: int = 60,
+        max_retries: int = 3,
+    ):
+
+        for attempt in range(
+            1,
+            max_retries + 1,
+        ):
+
+            try:
+
+                result = await asyncio.wait_for(
+                    Runner.run(
+                        agent,
+                        agent_input,
+                    ),
+                    timeout=timeout,
+                )
+
+                output = result.final_output
+
+                if not isinstance(
+                    output,
+                    expected_type,
+                ):
+                    raise WorkflowError(
+                        f"{agent.name} returned "
+                        f"an invalid output."
+                    )
+
+                return output
+
+            except asyncio.TimeoutError:
+
+                if attempt == max_retries:
+
+                    raise WorkflowError(
+                        f"{agent.name} timed out "
+                        f"after {max_retries} attempts."
+                    )
+
+            except Exception as error:
+
+                if attempt == max_retries:
+
+                    raise WorkflowError(
+                        f"{agent.name} failed: "
+                        f"{error}"
+                    ) from error
+
+            backoff = (
+                2 ** (attempt - 1)
+            )
+
+            print(
+                f"⚠️ Retry "
+                f"{attempt}/{max_retries}"
+                f" for {agent.name}"
+                f" in {backoff}s"
+            )
+
+            await asyncio.sleep(
+                backoff
+            )
+
+        raise WorkflowError(
+            f"{agent.name} failed."
+        )
+
+    #
     # Real OpenAI pipeline
     #
 
@@ -133,79 +221,73 @@ class ResearchWorkflow:
         question: str,
     ) -> SearchResult:
 
-        result = await Runner.run(
-            self.search_agent,
-            question,
+        return await self._run_agent_with_retry(
+            agent=self.search_agent,
+            agent_input=question,
+            expected_type=SearchResult,
         )
-
-        return result.final_output
 
     async def summarize_real(
         self,
         search_result: SearchResult,
     ) -> SummaryResult:
 
-        summary_input = f"""
-Topic:
-{search_result.topic}
-
-Findings:
-{chr(10).join(search_result.findings)}
-
-Source Count:
-{search_result.source_count}
-"""
-
-        result = await Runner.run(
-            self.summarizer_agent,
-            summary_input,
+        summary_input = (
+            search_result_to_prompt(
+                search_result
+            )
         )
 
-        return result.final_output
+        return await self._run_agent_with_retry(
+            agent=self.summarizer_agent,
+            agent_input=summary_input,
+            expected_type=SummaryResult,
+        )
 
     async def fact_check_real(
         self,
         summary_result: SummaryResult,
     ) -> ResearchReport:
 
-        report_input = f"""
-Summary:
-{summary_result.summary}
-
-Key Points:
-{chr(10).join(summary_result.key_points)}
-
-Confidence Score:
-{summary_result.confidence_score}
-"""
-
-        result = await Runner.run(
-            self.fact_checker_agent,
-            report_input,
+        report_input = (
+            summary_result_to_prompt(
+                summary_result
+            )
         )
 
-        print()
-        print("DEBUG FACT CHECKER OUTPUT")
-        print(type(result.final_output))
-        print(result.final_output)
-
-        return result.final_output
+        return await self._run_agent_with_retry(
+            agent=self.fact_checker_agent,
+            agent_input=report_input,
+            expected_type=ResearchReport,
+        )
 
     async def run_real(
         self,
         question: str,
     ) -> ResearchReport:
 
-        search_result = await self.search_real(
-            question
-        )
+        try:
 
-        summary_result = await self.summarize_real(
-            search_result
-        )
+            search_result = await self.search_real(
+                question
+            )
 
-        report = await self.fact_check_real(
-            summary_result
-        )
+            summary_result = await self.summarize_real(
+                search_result
+            )
 
-        return report
+            report = await self.fact_check_real(
+                summary_result
+            )
+
+            return report
+
+        except WorkflowError:
+
+            raise
+
+        except Exception as error:
+
+            raise WorkflowError(
+                f"Workflow failed: {error}"
+            ) from error
