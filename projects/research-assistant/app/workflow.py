@@ -1,4 +1,5 @@
 import asyncio
+import time
 
 from agents import Runner
 
@@ -228,12 +229,26 @@ class ResearchWorkflow:
             "Search Agent started"
         )
 
+        start_time = (
+            time.perf_counter()
+        )
+
         try:
 
             result = await self._run_agent_with_retry(
                 agent=self.search_agent,
                 agent_input=question,
                 expected_type=SearchResult,
+            )
+
+            duration = (
+                time.perf_counter()
+                - start_time
+            )
+
+            ExecutionLogger.metric(
+                "Search Agent",
+                duration,
             )
 
             ExecutionLogger.info(
@@ -245,7 +260,8 @@ class ResearchWorkflow:
         except Exception as error:
 
             ExecutionLogger.error(
-                f"Search Agent failed: {error}"
+                f"Search Agent failed: "
+                f"{error}"
             )
 
             raise
@@ -257,6 +273,10 @@ class ResearchWorkflow:
 
         ExecutionLogger.info(
             "Summarizer Agent started"
+        )
+
+        start_time = (
+            time.perf_counter()
         )
 
         try:
@@ -271,6 +291,16 @@ class ResearchWorkflow:
                 agent=self.summarizer_agent,
                 agent_input=summary_input,
                 expected_type=SummaryResult,
+            )
+
+            duration = (
+                time.perf_counter()
+                - start_time
+            )
+
+            ExecutionLogger.metric(
+                "Summarizer Agent",
+                duration,
             )
 
             ExecutionLogger.info(
@@ -297,6 +327,10 @@ class ResearchWorkflow:
             "Fact Checker Agent started"
         )
 
+        start_time = (
+            time.perf_counter()
+        )
+
         try:
 
             report_input = (
@@ -309,6 +343,16 @@ class ResearchWorkflow:
                 agent=self.fact_checker_agent,
                 agent_input=report_input,
                 expected_type=ResearchReport,
+            )
+
+            duration = (
+                time.perf_counter()
+                - start_time
+            )
+
+            ExecutionLogger.metric(
+                "Fact Checker Agent",
+                duration,
             )
 
             ExecutionLogger.info(
@@ -325,12 +369,19 @@ class ResearchWorkflow:
             )
 
             raise
-		
 
     async def run_real(
         self,
         question: str,
     ) -> ResearchReport:
+
+        ExecutionLogger.info(
+            "Workflow started"
+        )
+
+        workflow_start = (
+            time.perf_counter()
+        )
 
         try:
 
@@ -346,13 +397,56 @@ class ResearchWorkflow:
                 summary_result
             )
 
+            workflow_duration = (
+                time.perf_counter()
+                - workflow_start
+            )
+
+            ExecutionLogger.metric(
+                "Workflow Total",
+                workflow_duration,
+            )
+
+            ExecutionLogger.info(
+                "Workflow completed"
+            )
+
             return report
 
-        except WorkflowError:
+        except WorkflowError as error:
+
+            workflow_duration = (
+                time.perf_counter()
+                - workflow_start
+            )
+
+            ExecutionLogger.metric(
+                "Workflow Total",
+                workflow_duration,
+            )
+
+            ExecutionLogger.error(
+                f"Workflow failed: {error}"
+            )
 
             raise
 
         except Exception as error:
+
+            workflow_duration = (
+                time.perf_counter()
+                - workflow_start
+            )
+
+            ExecutionLogger.metric(
+                "Workflow Total",
+                workflow_duration,
+            )
+
+            ExecutionLogger.error(
+                f"Unexpected workflow error: "
+                f"{error}"
+            )
 
             raise WorkflowError(
                 f"Workflow failed: {error}"

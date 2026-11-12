@@ -56,3 +56,15 @@ class ExecutionLogger:
             f"[{timestamp}] "
             f"{message}"
         )
+
+    @staticmethod
+    def metric(
+        name: str,
+        duration: float,
+    ) -> None:
+
+        print(
+            f"[METRIC] "
+            f"{name}: "
+            f"{duration:.2f}s"
+        )
