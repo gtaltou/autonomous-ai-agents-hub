@@ -1,105 +1,82 @@
 import asyncio
-import logging
+import sys
 
-from agents import Runner
-
-from app.agents.coordinator import (
-    build_coordinator_agent,
-)
 from app.config import (
-    get_openai_api_key,
     load_environment,
 )
-from app.models import ResearchReport
+from app.exporters.markdown_exporter import (
+    MarkdownExporter,
+)
+from app.logging.execution_logger import (
+    ExecutionLogger,
+)
 from app.workflow import (
     ResearchWorkflow,
 )
 
-logger = logging.getLogger(__name__)
-
-QUESTION = """
-What are the main benefits of quantum computing?
-"""
-
-
-async def run_research() -> ResearchReport:
-
-    load_environment()
-
-    get_openai_api_key()
-
-    agent = build_coordinator_agent()
-
-    result = await Runner.run(
-        agent,
-        QUESTION,
-    )
-
-    return result.final_output
-
 
 async def main():
 
-    logger.info(
-        "Starting Research Assistant"
-    )
+    load_environment()
 
-    report = await run_research()
+    if len(sys.argv) < 2:
 
-    print()
-    print("🔍 Research Question:")
-    print(QUESTION.strip())
-
-    print()
-    print("📄 Research Report")
-    print("=" * 50)
-
-    print()
-    print(f"Topic: {report.topic}")
-
-    print()
-    print("Executive Summary:")
-    print(report.executive_summary)
-
-    print()
-    print("Key Findings:")
-
-    for index, finding in enumerate(
-        report.key_findings,
-        start=1,
-    ):
         print(
-            f"{index}. {finding}"
+            "Usage:"
         )
 
+        print(
+            'python -m app.main '
+            '"Your research question"'
+        )
+
+        return
+
+    question = " ".join(
+        sys.argv[1:]
+    )
+
+    workflow = (
+        ResearchWorkflow()
+    )
+
+    report = await workflow.run_real(
+        question
+    )
+
+    filepath = (
+        MarkdownExporter.export(
+            report
+        )
+    )
+
     print()
-    print("Sources Reviewed:")
 
-    for source in report.sources_reviewed:
-        print(f"- {source}")
+    print(
+        "Topic:"
+    )
+
+    print(
+        report.topic
+    )
 
     print()
-    print("Fact Check Notes:")
-    print(report.fact_check_notes)
+
+    print(
+        "Executive Summary:"
+    )
+
+    print(
+        report.executive_summary
+    )
 
     print()
-    print("Final Conclusion:")
-    print(report.final_conclusion)
 
-    logger.info(
-        "Research completed"
+    ExecutionLogger.success(
+        f"Report exported to {filepath}"
     )
 
 
 if __name__ == "__main__":
+
     asyncio.run(main())
-    
-workflow = ResearchWorkflow()
-
-pipeline = workflow.run(
-    QUESTION
-)
-
-print()
-print("Workflow:")
-print(pipeline)    
