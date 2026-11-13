@@ -10,6 +10,9 @@ from app.evaluators.report_evaluator import (
 from app.exporters.markdown_exporter import (
     MarkdownExporter,
 )
+from app.history.report_repository import (
+    ReportRepository,
+)
 from app.logging.execution_logger import (
     ExecutionLogger,
 )
@@ -33,7 +36,124 @@ async def main():
             '"Your research question"'
         )
 
+        print()
+
+        print(
+            "Available commands:"
+        )
+
+        print(
+            "python -m app.main --history"
+        )
+
+        print(
+            "python -m app.main --latest"
+        )
+
+        print(
+            "python -m app.main "
+            "--show <report>"
+        )
+
         return
+
+    #
+    # Report History
+    #
+
+    if sys.argv[1] == "--history":
+
+        reports = (
+            ReportRepository.list_reports()
+        )
+
+        print()
+        print(
+            "AVAILABLE REPORTS"
+        )
+
+        print()
+
+        if not reports:
+
+            print(
+                "No reports found."
+            )
+
+            return
+
+        for report in reports:
+
+            print(
+                f"- {report}"
+            )
+
+        return
+
+    #
+    # Latest Report
+    #
+
+    if sys.argv[1] == "--latest":
+
+        reports = (
+            ReportRepository.list_reports()
+        )
+
+        if not reports:
+
+            print(
+                "No reports found."
+            )
+
+            return
+
+        latest_report = reports[0]
+
+        content = (
+            ReportRepository.read_report(
+                latest_report
+            )
+        )
+
+        print(content)
+
+        return
+
+    #
+    # Show Specific Report
+    #
+
+    if sys.argv[1] == "--show":
+
+        if len(sys.argv) < 3:
+
+            print(
+                "Usage:"
+            )
+
+            print(
+                "python -m app.main "
+                "--show <report>"
+            )
+
+            return
+
+        filename = sys.argv[2]
+
+        content = (
+            ReportRepository.read_report(
+                filename
+            )
+        )
+
+        print(content)
+
+        return
+
+    #
+    # Research Workflow
+    #
 
     question = " ".join(
         sys.argv[1:]
@@ -58,19 +178,6 @@ async def main():
             report
         )
     )
-
-    score = evaluation["score"]
-
-    if score >= 90:
-        grade = "EXCELLENT"
-
-    elif score >= 75:
-        grade = "GOOD"
-
-    else:
-        grade = (
-            "NEEDS IMPROVEMENT"
-        )
 
     print()
 
@@ -103,11 +210,30 @@ async def main():
     )
 
     print(
-        f"Score: {score}/100"
+        f"Overall Score: "
+        f"{evaluation['score']}/100"
     )
 
     print(
-        f"Grade: {grade}"
+        f"Grade: "
+        f"{evaluation['grade']}"
+    )
+
+    print()
+
+    print(
+        f"Completeness Score: "
+        f"{evaluation['completeness_score']}/50"
+    )
+
+    print(
+        f"Content Score: "
+        f"{evaluation['content_score']}/30"
+    )
+
+    print(
+        f"Source Score: "
+        f"{evaluation['source_score']}/20"
     )
 
     print()
