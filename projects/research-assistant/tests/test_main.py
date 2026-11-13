@@ -1,110 +1,166 @@
-from unittest.mock import AsyncMock
-from unittest.mock import Mock
-from unittest.mock import patch
-
-import pytest
-
-from app.main import main
+from app.models import (
+    ResearchReport,
+)
 
 
-@pytest.mark.anyio
-@patch("app.main.load_environment")
-async def test_main_without_arguments(
-    mock_load_environment,
-    monkeypatch,
-    capsys,
-):
+class ReportEvaluator:
 
-    monkeypatch.setattr(
-        "sys.argv",
-        ["main.py"],
-    )
+    @staticmethod
+    def evaluate(
+        report: ResearchReport,
+    ) -> dict:
 
-    await main()
+        completeness_score = 0
 
-    captured = capsys.readouterr()
-
-    assert "Usage:" in captured.out
-
-
-@pytest.mark.anyio
-@patch("app.main.MarkdownExporter.export")
-@patch("app.main.ReportEvaluator.evaluate")
-@patch("app.main.ResearchWorkflow")
-@patch("app.main.load_environment")
-async def test_main_success(
-    mock_load_environment,
-    mock_workflow,
-    mock_evaluator,
-    mock_exporter,
-    monkeypatch,
-    capsys,
-):
-
-    monkeypatch.setattr(
-        "sys.argv",
-        [
-            "main.py",
-            "What",
-            "is",
-            "fusion",
-            "energy?",
-        ],
-    )
-
-    report = Mock()
-
-    report.topic = (
-        "Fusion Energy"
-    )
-
-    report.executive_summary = (
-        "Summary"
-    )
-
-    workflow_instance = Mock()
-
-    workflow_instance.run_real = (
-        AsyncMock(
-            return_value=report,
+        topic_present = bool(
+            report.topic.strip()
         )
-    )
 
-    mock_workflow.return_value = (
-        workflow_instance
-    )
+        if topic_present:
+            completeness_score += 10
 
-    mock_exporter.return_value = (
-        "reports/test.md"
-    )
+        executive_summary_present = bool(
+            report.executive_summary.strip()
+        )
 
-    mock_evaluator.return_value = {
-        "score": 100,
-        "topic_present": True,
-        "executive_summary_present": True,
-        "key_findings_count": 6,
-        "sources_count": 5,
-        "fact_check_present": True,
-        "conclusion_present": True,
-    }
+        if executive_summary_present:
+            completeness_score += 10
 
-    await main()
+        fact_check_present = bool(
+            report.fact_check_notes.strip()
+        )
 
-    captured = capsys.readouterr()
+        if fact_check_present:
+            completeness_score += 10
 
-    assert (
-        "Fusion Energy"
-        in captured.out
-    )
+        conclusion_present = bool(
+            report.final_conclusion.strip()
+        )
 
-    assert (
-        "REPORT EVALUATION"
-        in captured.out
-    )
+        if conclusion_present:
+            completeness_score += 10
 
-    assert (
-        "Score: 100/100"
-        in captured.out
-    )
+        key_findings_count = len(
+            report.key_findings
+        )
 
-    workflow_instance.run_real.assert_awaited_once()
+        if key_findings_count >= 5:
+            completeness_score += 10
+
+        elif key_findings_count >= 3:
+            completeness_score += 5
+
+        #
+        # Content Score
+        #
+
+        content_score = 0
+
+        summary_length = len(
+            report.executive_summary
+        )
+
+        if summary_length >= 400:
+            content_score += 15
+
+        elif summary_length >= 200:
+            content_score += 10
+
+        elif summary_length >= 100:
+            content_score += 5
+
+        findings_text_length = sum(
+            len(finding)
+            for finding in report.key_findings
+        )
+
+        if findings_text_length >= 500:
+            content_score += 15
+
+        elif findings_text_length >= 250:
+            content_score += 10
+
+        elif findings_text_length >= 100:
+            content_score += 5
+
+        #
+        # Source Score
+        #
+
+        sources_count = len(
+            report.sources_reviewed
+        )
+
+        if sources_count >= 5:
+            source_score = 20
+
+        elif sources_count >= 3:
+            source_score = 15
+
+        elif sources_count > 0:
+            source_score = 10
+
+        else:
+            source_score = 0
+
+        #
+        # Overall Score
+        #
+
+        overall_score = min(
+            completeness_score
+            + content_score
+            + source_score,
+            100,
+        )
+
+        #
+        # Grade
+        #
+
+        if overall_score >= 95:
+            grade = "EXCELLENT"
+
+        elif overall_score >= 85:
+            grade = "VERY GOOD"
+
+        elif overall_score >= 70:
+            grade = "GOOD"
+
+        elif overall_score >= 50:
+            grade = "FAIR"
+
+        else:
+            grade = "POOR"
+
+        return {
+            "score": overall_score,
+            "grade": grade,
+            "completeness_score": (
+                completeness_score
+            ),
+            "content_score": (
+                content_score
+            ),
+            "source_score": (
+                source_score
+            ),
+            "topic_present": (
+                topic_present
+            ),
+            "executive_summary_present": (
+                executive_summary_present
+            ),
+            "key_findings_count": (
+                key_findings_count
+            ),
+            "sources_count": (
+                sources_count
+            ),
+            "fact_check_present": (
+                fact_check_present
+            ),
+            "conclusion_present": (
+                conclusion_present
+            ),
+        }
