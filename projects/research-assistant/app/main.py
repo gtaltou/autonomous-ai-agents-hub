@@ -57,6 +57,20 @@ async def main():
         print(
             "python -m app.main --search <keyword>"
         )
+        
+        print(
+           "python -m app.main --compare <report_a> <report_b>"
+)
+        
+        print(
+           "python -m app.main --stats"
+)
+
+        print(
+           "python -m app.main --stats --real"
+)
+ 
+    
 
         return
 
@@ -412,7 +426,137 @@ async def main():
             )
 
         return
-    
+        #
+    # Report Statistics
+    #
+
+    if sys.argv[1] == "--stats":
+
+       real_only = (
+    "--real"
+    in sys.argv
+)
+
+    stats = (
+    ReportRepository
+    .get_statistics(
+        real_only=real_only
+    )
+)
+
+    print()
+
+    print(
+        "REPORT STATISTICS"
+    )
+
+    print(
+        "=" * 40
+    )
+
+    print()
+
+    print(
+        f"Total Reports: "
+        f"{stats['total_reports']}"
+    )
+
+    print(
+        f"Average Score: "
+        f"{stats['average_score']}"
+    )
+
+    print()
+
+    if (
+        stats["best_report"]
+        is not None
+    ):
+
+        best = (
+            stats["best_report"]
+        )
+
+        print(
+            "BEST REPORT"
+        )
+
+        print(
+            "-" * 40
+        )
+
+        print(
+            best.topic
+        )
+
+        print(
+            f"Score: "
+            f"{best.score}"
+        )
+
+        print(
+            f"Grade: "
+            f"{best.grade}"
+        )
+
+        print()
+
+        if (
+            stats["worst_report"]
+            is not None
+        ):
+
+            worst = (
+                stats["worst_report"]
+            )
+
+            print(
+                "WORST REPORT"
+            )
+
+            print(
+                "-" * 40
+            )
+
+            print(
+                worst.topic
+            )
+
+            print(
+                f"Score: "
+                f"{worst.score}"
+            )
+
+            print(
+                f"Grade: "
+                f"{worst.grade}"
+            )
+
+            print()
+
+        print(
+            "GRADE DISTRIBUTION"
+        )
+
+        print(
+            "-" * 40
+        )
+
+        for (
+            grade,
+            count,
+        ) in (
+            stats[
+                "grade_distribution"
+            ]
+            .items()
+        ):
+
+            print(
+                f"{grade}: {count}"
+            )
+
+        return
     #
     # Research Workflow
     #

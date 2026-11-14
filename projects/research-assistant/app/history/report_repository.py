@@ -140,8 +140,8 @@ class ReportRepository:
 
         reports = (
             cls.list_report_metadata()
-        )
-
+        )       
+    
         results = []
 
         for report in reports:
@@ -178,4 +178,94 @@ class ReportRepository:
         return (
             first_report,
             second_report,
-        )        
+        )
+        
+    @classmethod
+    def get_statistics(
+        cls,
+        real_only: bool = False,
+    ) -> dict:
+
+        reports = (
+            cls.list_report_metadata()
+        )
+
+        if real_only:
+
+            reports = [
+                report
+                for report in reports
+                if report.topic.strip().lower()
+                != "test"
+            ]
+
+        if not reports:
+
+            return {
+                "total_reports": 0,
+                "average_score": 0,
+                "best_report": None,
+                "worst_report": None,
+                "grade_distribution": {},
+            }
+
+        total_reports = len(
+            reports
+        )
+
+        average_score = round(
+            sum(
+                report.score
+                for report in reports
+            )
+            / total_reports,
+            1,
+        )
+
+        best_report = max(
+            reports,
+            key=lambda report: report.score,
+        )
+
+        worst_report = min(
+            reports,
+            key=lambda report: report.score,
+        )
+
+        grade_distribution = {
+            "EXCELLENT": 0,
+            "VERY GOOD": 0,
+            "GOOD": 0,
+            "FAIR": 0,
+            "POOR": 0,
+            "NEEDS IMPROVEMENT": 0,
+        }
+
+        for report in reports:
+
+            if (
+                report.grade
+                in grade_distribution
+            ):
+
+                grade_distribution[
+                    report.grade
+                ] += 1
+
+        return {
+            "total_reports": (
+                total_reports
+            ),
+            "average_score": (
+                average_score
+            ),
+            "best_report": (
+                best_report
+            ),
+            "worst_report": (
+                worst_report
+            ),
+            "grade_distribution": (
+                grade_distribution
+            ),
+        }
