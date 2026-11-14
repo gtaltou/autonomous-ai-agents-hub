@@ -312,4 +312,187 @@ Grade: GOOD
             "grade_distribution": (
                 grade_distribution
             ),
-        }            
+        }
+        
+def test_get_statistics(
+    tmp_path,
+    monkeypatch,
+):
+
+    monkeypatch.setattr(
+        ReportRepository,
+        "REPORTS_DIR",
+        tmp_path,
+    )
+
+    (
+        tmp_path
+        / "report_a.md"
+    ).write_text(
+        """
+# Research Report
+
+## Topic
+
+Fusion Energy
+
+---
+
+# Evaluation
+
+Score: 95
+
+Grade: EXCELLENT
+""",
+        encoding="utf-8",
+    )
+
+    (
+        tmp_path
+        / "report_b.md"
+    ).write_text(
+        """
+# Research Report
+
+## Topic
+
+History
+
+---
+
+# Evaluation
+
+Score: 75
+
+Grade: GOOD
+""",
+        encoding="utf-8",
+    )
+
+    stats = (
+        ReportRepository
+        .get_statistics()
+    )
+
+    assert (
+        stats["total_reports"]
+        == 2
+    )
+
+    assert (
+        stats["average_score"]
+        == 85.0
+    )
+
+    assert (
+        stats["best_report"].score
+        == 95
+    )
+
+    assert (
+        stats["worst_report"].score
+        == 75
+    )
+
+    assert (
+        stats["grade_distribution"][
+            "EXCELLENT"
+        ]
+        == 1
+    )
+
+    assert (
+        stats["grade_distribution"][
+            "GOOD"
+        ]
+        == 1
+    )
+    
+def test_get_statistics_real_only(
+    tmp_path,
+    monkeypatch,
+):
+
+    monkeypatch.setattr(
+        ReportRepository,
+        "REPORTS_DIR",
+        tmp_path,
+    )
+
+    (
+        tmp_path
+        / "report_a.md"
+    ).write_text(
+        """
+# Research Report
+
+## Topic
+
+Fusion Energy
+
+---
+
+# Evaluation
+
+Score: 95
+
+Grade: EXCELLENT
+""",
+        encoding="utf-8",
+    )
+
+    (
+        tmp_path
+        / "report_b.md"
+    ).write_text(
+        """
+# Research Report
+
+## Topic
+
+Test
+
+---
+
+# Evaluation
+
+Score: 50
+
+Grade: NEEDS IMPROVEMENT
+""",
+        encoding="utf-8",
+    )
+
+    stats = (
+        ReportRepository
+        .get_statistics(
+            real_only=True
+        )
+    )
+
+    assert (
+        stats["total_reports"]
+        == 1
+    )
+
+    assert (
+        stats["average_score"]
+        == 95.0
+    )
+
+    assert (
+        stats["best_report"].topic
+        == "Fusion Energy"
+    )
+
+    assert (
+        stats["worst_report"].topic
+        == "Fusion Energy"
+    )
+
+    assert (
+        stats["grade_distribution"][
+            "NEEDS IMPROVEMENT"
+        ]
+        == 0
+    )                      
