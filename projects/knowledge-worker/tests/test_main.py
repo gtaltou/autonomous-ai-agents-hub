@@ -1,119 +1,179 @@
-from app.services.knowledge_service import (
-    KnowledgeService,
+from app.main import (
+    main,
+)
+from app.models.report_metadata import (
+    ReportMetadata,
 )
 
 
-def show_topics() -> None:
+def test_main_without_arguments(
+    capsys,
+):
 
-    topics = (
-        KnowledgeService
-        .get_topics()
+    main([])
+
+    captured = (
+        capsys.readouterr()
     )
 
-    print()
-    print("TOPICS")
-    print("=" * 40)
-    print()
-
-    if not topics:
-
-        print(
-            "No topics found."
-        )
-
-        return
-
-    for topic, count in sorted(
-        topics.items(),
-        key=lambda item: item[1],
-        reverse=True,
-    ):
-
-        print(
-            f"{topic}: {count}"
-        )
+    assert "Usage" in captured.out
 
 
-def show_top_reports() -> None:
+def test_main_topics(
+    monkeypatch,
+    capsys,
+):
 
-    reports = (
-        KnowledgeService
-        .get_top_reports()
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_topics",
+        lambda: {
+            "fusion": 2,
+            "energy": 1,
+        },
     )
 
-    print()
-    print("TOP REPORTS")
-    print("=" * 40)
-    print()
+    main(
+        ["--topics"]
+    )
 
-    if not reports:
+    captured = (
+        capsys.readouterr()
+    )
 
-        print(
-            "No reports found."
-        )
+    assert "fusion" in captured.out
 
-        return
-
-    for report in reports:
-
-        print(
-            report.topic
-        )
-
-        print(
-            f"Score: {report.score}"
-        )
-
-        print(
-            f"Grade: {report.grade}"
-        )
-
-        print()
+    assert "energy" in captured.out
 
 
-def main(
-    args=None,
-) -> None:
+def test_main_top_reports(
+    monkeypatch,
+    capsys,
+):
 
-    if args is None:
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_top_reports",
+        lambda: [
+            ReportMetadata(
+                filename="1.md",
+                topic="Fusion Energy",
+                score=95,
+                grade="EXCELLENT",
+            )
+        ],
+    )
 
-        import sys
+    main(
+        ["--top-reports"]
+    )
 
-        args = sys.argv[1:]
+    captured = (
+        capsys.readouterr()
+    )
 
-    if not args:
-
-        print(
-            "Usage:"
-        )
-
-        print(
-            "python -m app.main --top-reports"
-        )
-
-        print(
-            "python -m app.main --topics"
-        )
-
-        return
-
-    if "--top-reports" in args:
-
-        show_top_reports()
-
-        return
-
-    if "--topics" in args:
-
-        show_topics()
-
-        return
-
-    print(
-        "Unknown command."
+    assert (
+        "Fusion Energy"
+        in captured.out
     )
 
 
-if __name__ == "__main__":
+def test_main_recommendations(
+    monkeypatch,
+    capsys,
+):
 
-    main()
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_recommendations",
+        lambda limit=3: [
+            "energy",
+            "fusion",
+            "storage",
+        ],
+    )
+
+    main(
+        ["--recommendations"]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert "energy" in captured.out
+
+    assert "fusion" in captured.out
+
+
+def test_main_recommendations_with_limit(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_recommendations",
+        lambda limit=3: [
+            "energy",
+            "fusion",
+        ],
+    )
+
+    main(
+        [
+            "--recommendations",
+            "2",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert "energy" in captured.out
+
+    assert "fusion" in captured.out
+
+
+def test_main_top_topics(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_top_topics",
+        lambda: [
+            ("energy", 2),
+            ("fusion", 2),
+            ("storage", 1),
+        ],
+    )
+
+    main(
+        ["--top-topics"]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert "TOP TOPICS" in captured.out
+
+    assert "energy" in captured.out
+
+    assert "fusion" in captured.out
+
+
+def test_main_unknown_command(
+    capsys,
+):
+
+    main(
+        ["--unknown"]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert (
+        "Unknown command"
+        in captured.out
+    )
