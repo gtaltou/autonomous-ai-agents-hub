@@ -1,8 +1,8 @@
 from app.analyzers.top_reports import (
     TopReportsAnalyzer,
 )
-from app.models.report_metadata import (
-    ReportMetadata,
+from app.analyzers.topic_discovery import (
+    TopicDiscoveryAnalyzer,
 )
 from app.repositories.report_repository import (
     ReportRepository,
@@ -15,8 +15,7 @@ class KnowledgeService:
     def get_top_reports(
         cls,
         limit: int = 5,
-    ) -> list[ReportMetadata]:
-
+    ):
         reports = (
             ReportRepository
             .list_report_metadata()
@@ -29,3 +28,22 @@ class KnowledgeService:
                 limit,
             )
         )
+
+    @classmethod
+    def get_topics(
+        cls,
+    ) -> dict[str, int]:
+
+        reports = (
+            ReportRepository
+            .list_report_metadata()
+        )
+
+        return (
+            TopicDiscoveryAnalyzer
+            .discover_topics(
+                reports,
+            )
+        )
+        
+        

@@ -145,3 +145,58 @@ def test_get_top_reports_string_limit(
         KnowledgeService.get_top_reports(
             limit="5",
         )
+        
+def test_get_topics(
+    monkeypatch,
+):
+
+    reports = [
+        ReportMetadata(
+            filename="1.md",
+            topic="Fusion Energy",
+            score=95,
+            grade="EXCELLENT",
+        ),
+        ReportMetadata(
+            filename="2.md",
+            topic="Fusion Research",
+            score=85,
+            grade="GOOD",
+        ),
+    ]
+
+    monkeypatch.setattr(
+        "app.services.knowledge_service."
+        "ReportRepository.list_report_metadata",
+        lambda: reports,
+    )
+
+    topics = (
+        KnowledgeService
+        .get_topics()
+    )
+
+    assert topics["fusion"] == 2
+
+    assert topics["energy"] == 1
+
+    assert topics["research"] == 1
+    
+def test_get_topics_empty_repository(
+    monkeypatch,
+):
+
+    monkeypatch.setattr(
+        "app.services.knowledge_service."
+        "ReportRepository.list_report_metadata",
+        lambda: [],
+    )
+
+    topics = (
+        KnowledgeService
+        .get_topics()
+    )
+
+    assert topics == {} 
+    
+           
