@@ -81,4 +81,28 @@ def test_discover_topics_case_insensitive():
 
     assert topics["fusion"] == 2
 
-    assert topics["energy"] == 2      
+    assert topics["energy"] == 2
+    
+def test_discover_topics_ignores_stop_words():
+    
+    reports = [
+        ReportMetadata(
+            filename="1.md",
+            topic="The Future of Energy",
+            score=95,
+            grade="EXCELLENT",
+        ),
+    ]
+
+    topics = (
+        TopicDiscoveryAnalyzer
+        .discover_topics(
+            reports,
+        )
+    )
+
+    assert "the" not in topics
+    assert "of" not in topics
+
+    assert topics["future"] == 1
+    assert topics["energy"] == 1         

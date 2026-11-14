@@ -12,7 +12,21 @@ class RecommendationsAnalyzer:
     def get_recommendations(
         cls,
         reports: list[ReportMetadata],
+        limit: int = 3,
     ) -> list[str]:
+
+        if not isinstance(
+            limit,
+            int,
+        ):
+            raise TypeError(
+                "limit must be an integer",
+            )
+
+        if limit < 1:
+            raise ValueError(
+                "limit must be greater than 0",
+            )
 
         topics = (
             TopicDiscoveryAnalyzer
@@ -30,5 +44,5 @@ class RecommendationsAnalyzer:
         return [
             topic
             for topic, _
-            in sorted_topics[:3]
-        ]
+            in sorted_topics[:limit]
+        ]       

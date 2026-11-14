@@ -1,11 +1,14 @@
-from app.analyzers.related_reports import (
-    RelatedReportsAnalyzer,
-)
 from app.analyzers.recommendations import (
     RecommendationsAnalyzer,
 )
+from app.analyzers.related_reports import (
+    RelatedReportsAnalyzer,
+)
 from app.analyzers.top_reports import (
     TopReportsAnalyzer,
+)
+from app.analyzers.top_topics import (
+    TopTopicsAnalyzer,
 )
 from app.analyzers.topic_discovery import (
     TopicDiscoveryAnalyzer,
@@ -89,5 +92,24 @@ class KnowledgeService:
             RecommendationsAnalyzer
             .get_recommendations(
                 reports,
+            )
+        )
+       
+   
+    @classmethod
+    def get_top_topics(
+        cls,
+        limit: int = 10,
+    ) -> list[tuple[str, int]]:
+
+        topics = (
+            cls.get_topics()
+        )
+
+        return (
+            TopTopicsAnalyzer
+            .get_top_topics(
+                topics,
+                limit,
             )
         )

@@ -76,11 +76,15 @@ def show_topics() -> None:
         )
 
 
-def show_recommendations() -> None:
+def show_recommendations(
+    limit: int = 3,
+) -> None:
 
     recommendations = (
         KnowledgeService
-        .get_recommendations()
+        .get_recommendations(
+            limit=limit,
+        )
     )
 
     print()
@@ -103,6 +107,39 @@ def show_recommendations() -> None:
         )
 
 
+def show_top_topics() -> None:
+
+    topics = (
+        KnowledgeService
+        .get_top_topics()
+    )
+
+    print()
+    print("TOP TOPICS")
+    print("=" * 40)
+    print()
+
+    if not topics:
+
+        print(
+            "No topics found."
+        )
+
+        return
+
+    for index, (
+        topic,
+        count,
+    ) in enumerate(
+        topics,
+        start=1,
+    ):
+
+        print(
+            f"{index}. {topic} ({count})"
+        )
+
+
 def main(
     args=None,
 ) -> None:
@@ -113,20 +150,18 @@ def main(
 
     if not args:
 
-        print(
-            "Usage:"
-        )
-
+        print("Usage:")
         print(
             "python -m app.main --top-reports"
         )
-
         print(
             "python -m app.main --topics"
         )
-
         print(
-            "python -m app.main --recommendations"
+            "python -m app.main --recommendations [limit]"
+        )
+        print(
+            "python -m app.main --top-topics"
         )
 
         return
@@ -143,9 +178,35 @@ def main(
 
         return
 
+    if "--top-topics" in args:
+
+        show_top_topics()
+
+        return
+
     if "--recommendations" in args:
 
-        show_recommendations()
+        limit = 3
+
+        if len(args) > 1:
+
+            try:
+
+                limit = int(
+                    args[1]
+                )
+
+            except ValueError:
+
+                print(
+                    "Invalid limit."
+                )
+
+                return
+
+        show_recommendations(
+            limit=limit,
+        )
 
         return
 

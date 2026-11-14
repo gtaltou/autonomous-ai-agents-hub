@@ -6,7 +6,7 @@ from app.models.report_metadata import (
 
 
 class TopicDiscoveryAnalyzer:
-
+    
     @classmethod
     def discover_topics(
         cls,
@@ -19,6 +19,23 @@ class TopicDiscoveryAnalyzer:
 
             for word in report.topic.split():
 
-                topics[word.lower()] += 1
+                word = word.lower()
+
+                if word in STOP_WORDS:
+                    continue
+
+                topics[word] += 1
 
         return dict(topics)
+    
+
+STOP_WORDS = {
+    "a",
+    "an",
+    "and",
+    "of",
+    "in",
+    "on",
+    "the",
+    "to",
+}  
