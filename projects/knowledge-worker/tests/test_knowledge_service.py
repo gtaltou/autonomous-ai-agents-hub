@@ -199,4 +199,44 @@ def test_get_topics_empty_repository(
 
     assert topics == {} 
     
+def test_get_related_reports(
+    monkeypatch,
+):
+
+    target = ReportMetadata(
+        filename="target.md",
+        topic="Fusion Energy",
+        score=95,
+        grade="EXCELLENT",
+    )
+
+    reports = [
+        target,
+        ReportMetadata(
+            filename="related.md",
+            topic="Fusion Energy Research",
+            score=85,
+            grade="GOOD",
+        ),
+    ]
+
+    monkeypatch.setattr(
+        "app.services.knowledge_service."
+        "ReportRepository.list_report_metadata",
+        lambda: reports,
+    )
+
+    related = (
+        KnowledgeService
+        .get_related_reports(
+            target,
+        )
+    )
+
+    assert len(related) == 1
+
+    assert (
+        related[0].topic
+        == "Fusion Energy Research"
+    )
            

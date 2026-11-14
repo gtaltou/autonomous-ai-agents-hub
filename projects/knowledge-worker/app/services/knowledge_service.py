@@ -1,8 +1,14 @@
+from app.analyzers.related_reports import (
+    RelatedReportsAnalyzer,
+)
 from app.analyzers.top_reports import (
     TopReportsAnalyzer,
 )
 from app.analyzers.topic_discovery import (
     TopicDiscoveryAnalyzer,
+)
+from app.models.report_metadata import (
+    ReportMetadata,
 )
 from app.repositories.report_repository import (
     ReportRepository,
@@ -16,6 +22,7 @@ class KnowledgeService:
         cls,
         limit: int = 5,
     ):
+
         reports = (
             ReportRepository
             .list_report_metadata()
@@ -45,5 +52,22 @@ class KnowledgeService:
                 reports,
             )
         )
-        
-        
+
+    @classmethod
+    def get_related_reports(
+        cls,
+        target: ReportMetadata,
+    ) -> list[ReportMetadata]:
+
+        reports = (
+            ReportRepository
+            .list_report_metadata()
+        )
+
+        return (
+            RelatedReportsAnalyzer
+            .find_related_reports(
+                target,
+                reports,
+            )
+        )
