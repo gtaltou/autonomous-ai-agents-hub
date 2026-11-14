@@ -129,3 +129,33 @@ class ReportRepository:
                 continue
 
         return metadata
+    
+    @classmethod
+    def search_reports(
+        cls,
+        keyword: str,
+    ) -> list[ReportMetadata]:
+
+        keyword = keyword.lower().strip()
+
+        reports = (
+            cls.list_report_metadata()
+        )
+
+        results = []
+
+        for report in reports:
+
+            if (
+                keyword
+                in report.topic.lower()
+            ) or (
+                keyword
+                in report.filename.lower()
+            ):
+
+                results.append(
+                    report
+                )
+
+        return results    

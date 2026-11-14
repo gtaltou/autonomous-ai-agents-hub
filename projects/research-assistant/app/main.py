@@ -51,8 +51,11 @@ async def main():
         )
 
         print(
-            "python -m app.main "
-            "--show <report>"
+            "python -m app.main --show <report>"
+        )
+
+        print(
+            "python -m app.main --search <keyword>"
         )
 
         return
@@ -64,10 +67,12 @@ async def main():
     if sys.argv[1] == "--history":
 
         reports = (
-            ReportRepository.list_reports()
+            ReportRepository
+            .list_report_metadata()
         )
 
         print()
+
         print(
             "AVAILABLE REPORTS"
         )
@@ -85,8 +90,25 @@ async def main():
         for report in reports:
 
             print(
-                f"- {report}"
+                report.topic
             )
+
+            print(
+                f"  Score: "
+                f"{report.score}"
+            )
+
+            print(
+                f"  Grade: "
+                f"{report.grade}"
+            )
+
+            print(
+                f"  File: "
+                f"{report.filename}"
+            )
+
+            print()
 
         return
 
@@ -97,7 +119,8 @@ async def main():
     if sys.argv[1] == "--latest":
 
         reports = (
-            ReportRepository.list_reports()
+            ReportRepository
+            .list_reports()
         )
 
         if not reports:
@@ -148,6 +171,74 @@ async def main():
         )
 
         print(content)
+
+        return
+
+    #
+    # Search Reports
+    #
+
+    if sys.argv[1] == "--search":
+
+        if len(sys.argv) < 3:
+
+            print(
+                "Usage:"
+            )
+
+            print(
+                "python -m app.main "
+                "--search <keyword>"
+            )
+
+            return
+
+        keyword = sys.argv[2]
+
+        results = (
+            ReportRepository.search_reports(
+                keyword
+            )
+        )
+
+        print()
+
+        print(
+            "SEARCH RESULTS"
+        )
+
+        print()
+
+        if not results:
+
+            print(
+                "No matching reports found."
+            )
+
+            return
+
+        for report in results:
+
+            print(
+                report.topic
+            )
+
+            print(
+                f"  Score: "
+                f"{report.score}"
+            )
+
+            print(
+                f"  Grade: "
+                f"{report.grade}"
+            )
+
+            print(
+                f"  File: "
+                f"{report.filename}"
+            )
+
+            print()
 
         return
 

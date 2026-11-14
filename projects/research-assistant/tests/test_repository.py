@@ -122,3 +122,52 @@ def test_read_report_not_found(
         ReportRepository.read_report(
             "missing.md"
         )
+        
+def test_search_reports(
+    tmp_path,
+    monkeypatch,
+):
+
+    monkeypatch.setattr(
+        ReportRepository,
+        "REPORTS_DIR",
+        tmp_path,
+    )
+
+    report = (
+        tmp_path
+        / "fusion_report.md"
+    )
+
+    report.write_text(
+        """
+# Research Report
+
+## Topic
+
+Fusion Energy
+
+---
+
+# Evaluation
+
+Score: 95
+
+Grade: EXCELLENT
+""",
+        encoding="utf-8",
+    )
+
+    results = (
+        ReportRepository
+        .search_reports(
+            "fusion"
+        )
+    )
+
+    assert len(results) == 1
+
+    assert (
+        results[0].topic
+        == "Fusion Energy"
+    )        
