@@ -1,36 +1,46 @@
 # 🔍 Research Assistant
 
-Multi-agent research system built with OpenAI Agents SDK.
+Multi-agent research system built with the OpenAI Agents SDK.
 
-## Status
+---
+
+# Status
 
 ✅ Sprint 03 Completed
 
-**Current Sprint:** 04
+✅ Sprint 04 Completed
 
-**Current Phase:** Production Readiness
+✅ Sprint 05 Completed
 
----
+**Current Version:** v1.0.0
 
-## Objective
-
-The Research Assistant is the first production-oriented project in the Autonomous AI Agents Hub roadmap.
-
-Its purpose is to transform a user question into a structured and verifiable research report by orchestrating multiple specialized AI agents.
+**Current Phase:** Research Archive Management
 
 ---
 
-## Business Goals
+# Objective
+
+Research Assistant transforms a user question into a structured, validated, archived, searchable, and comparable research report through a multi-agent workflow.
+
+The project serves as the first production-oriented implementation in the Autonomous AI Agents Hub roadmap.
+
+---
+
+# Business Goals
 
 - Collect information from multiple sources
 - Synthesize findings into concise insights
 - Validate information quality
 - Produce structured research reports
+- Archive research outputs
+- Search historical reports
+- Compare report quality
+- Analyze archive statistics
 - Establish reusable multi-agent patterns
 
 ---
 
-## Current Architecture
+# Current Architecture
 
 ```mermaid
 flowchart TD
@@ -49,14 +59,26 @@ flowchart TD
 
     FactChecker --> ResearchReport[ResearchReport]
 
-    ResearchReport --> User
+    ResearchReport --> Evaluation[Evaluation Framework]
+
+    Evaluation --> Export[Markdown Export]
+
+    Export --> Repository[Report Repository]
+
+    Repository --> History[History CLI]
+
+    Repository --> SearchReports[Report Search]
+
+    Repository --> CompareReports[Report Comparison]
+
+    Repository --> Statistics[Report Statistics]
 ```
 
 ---
 
-## Agent Responsibilities
+# Agent Responsibilities
 
-### Coordinator Agent
+## Coordinator Agent
 
 Responsible for workflow orchestration.
 
@@ -74,7 +96,7 @@ Status:
 
 ---
 
-### Search Agent
+## Search Agent
 
 Responsible for information gathering.
 
@@ -100,7 +122,7 @@ Status:
 
 ---
 
-### Summarizer Agent
+## Summarizer Agent
 
 Responsible for information synthesis.
 
@@ -126,15 +148,15 @@ Status:
 
 ---
 
-### Fact Checker Agent
+## Fact Checker Agent
 
-Responsible for quality validation.
+Responsible for report validation.
 
 Responsibilities:
 
 - Review findings
 - Detect inconsistencies
-- Validate report accuracy
+- Validate accuracy
 - Produce final report
 
 Output:
@@ -153,9 +175,9 @@ Status:
 
 ---
 
-## Data Contracts
+# Data Contracts
 
-### SearchResult
+## SearchResult
 
 ```text
 topic
@@ -165,7 +187,7 @@ source_count
 
 ---
 
-### SummaryResult
+## SummaryResult
 
 ```text
 summary
@@ -175,7 +197,7 @@ confidence_score
 
 ---
 
-### ResearchReport
+## ResearchReport
 
 ```text
 topic
@@ -188,7 +210,18 @@ final_conclusion
 
 ---
 
-## Workflow Engine
+## ReportMetadata
+
+```text
+filename
+topic
+score
+grade
+```
+
+---
+
+# Workflow Engine
 
 Current workflow:
 
@@ -210,6 +243,14 @@ SummaryResult
 Fact Checker Agent
     ↓
 ResearchReport
+
+    ↓
+
+Evaluation Framework
+    ↓
+Markdown Export
+    ↓
+Repository
 ```
 
 Capabilities:
@@ -234,40 +275,130 @@ Capabilities:
 
 ---
 
-## Serialization Layer
+# Evaluation Framework
 
-The workflow uses dedicated serializers to transform agent outputs into prompts for downstream agents.
+The system automatically evaluates each generated report.
 
-```text
-SearchResult
-    ↓
-Serializer
-    ↓
-Summarizer Agent
-```
+Metrics:
 
 ```text
-SummaryResult
-    ↓
-Serializer
-    ↓
-Fact Checker Agent
+Completeness Score
+Content Score
+Source Score
+Overall Score
+Grade
 ```
 
-Benefits:
+Grades:
 
-- Separation of concerns
-- Reusable formatting logic
-- Easier testing
-- Cleaner workflows
+```text
+EXCELLENT
+VERY GOOD
+GOOD
+FAIR
+POOR
+NEEDS IMPROVEMENT
+```
 
 ---
 
-## Expected Output
+# Report Management
 
-A structured research report.
+The project includes a complete research archive layer.
+
+Capabilities:
+
+```text
+✅ Report Repository
+
+✅ Report History
+
+✅ Report Retrieval
+
+✅ Report Search
+
+✅ Report Comparison
+
+✅ Report Statistics
+
+✅ Real Report Filtering
+```
+
+---
+
+# CLI Commands
+
+## Generate Research Report
+
+```bash
+python -m app.main "What is fusion energy?"
+```
+
+---
+
+## Report History
+
+```bash
+python -m app.main --history
+```
+
+---
+
+## Show Latest Report
+
+```bash
+python -m app.main --latest
+```
+
+---
+
+## Show Report
+
+```bash
+python -m app.main --show <report>
+```
 
 Example:
+
+```bash
+python -m app.main --show report_2026-11-14_005630.md
+```
+
+---
+
+## Search Reports
+
+```bash
+python -m app.main --search fusion
+```
+
+---
+
+## Compare Reports
+
+```bash
+python -m app.main --compare report_a.md report_b.md
+```
+
+---
+
+## Statistics
+
+```bash
+python -m app.main --stats
+```
+
+---
+
+## Statistics (Real Reports Only)
+
+```bash
+python -m app.main --stats --real
+```
+
+---
+
+# Example Report
 
 ```text
 Research Report
@@ -295,7 +426,7 @@ Final Conclusion:
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 research-assistant/
@@ -307,7 +438,6 @@ research-assistant/
 ├── .env.example
 │
 ├── app/
-│   ├── __init__.py
 │   │
 │   ├── agents/
 │   │   ├── coordinator.py
@@ -315,97 +445,43 @@ research-assistant/
 │   │   ├── summarizer.py
 │   │   └── fact_checker.py
 │   │
+│   ├── evaluators/
+│   │   └── report_evaluator.py
+│   │
+│   ├── exporters/
+│   │   └── markdown_exporter.py
+│   │
+│   ├── history/
+│   │   └── report_repository.py
+│   │
+│   ├── logging/
+│   │   └── execution_logger.py
+│   │
 │   ├── serializers/
 │   │   └── research.py
 │   │
 │   ├── models.py
 │   ├── workflow.py
 │   ├── config.py
-│   │
-│   ├── playground.py
-│   ├── playground_summary.py
-│   └── playground_workflow.py
+│   └── main.py
+│
+├── reports/
 │
 └── tests/
     ├── test_agents.py
+    ├── test_evaluator.py
+    ├── test_exporter.py
     ├── test_models.py
+    ├── test_repository.py
     ├── test_serializers.py
     └── test_workflow.py
 ```
 
 ---
 
-## Development Progress
+# Current Milestone
 
-### Sprint 03.1 — Foundation
-
-```text
-✅ ResearchReport Model
-
-✅ Coordinator Agent
-
-✅ Search Agent
-
-✅ Basic Workflow
-```
-
----
-
-### Sprint 03.2 — Research Processing
-
-```text
-✅ Summarizer Agent
-
-✅ Structured Outputs
-
-✅ Report Generation
-```
-
----
-
-### Sprint 03.3 — Quality Layer
-
-```text
-✅ Fact Checker Agent
-
-✅ Validation Workflow
-
-✅ Multi-Agent Orchestration
-
-✅ Agent Handoffs
-```
-
----
-
-### Sprint 03.4 — Real Execution
-
-```text
-✅ OpenAI Agent Execution
-
-✅ SearchResult
-
-✅ SummaryResult
-
-✅ ResearchReport
-
-✅ Serialization Layer
-
-✅ Workflow Engine
-
-✅ Retry Logic
-
-✅ Timeouts
-
-✅ Exponential Backoff
-
-✅ End-to-End Workflow
-```
-
----
-
-## Current Milestone
-
-### Sprint 03 ✅ COMPLETED
+## Research Assistant v1.0 ✅ COMPLETED
 
 Delivered:
 
@@ -420,62 +496,66 @@ Delivered:
 
 ✅ Timeout Management
 
-✅ End-to-End Research Report Generation
+✅ Logging
 
-✅ 15 Passing Tests
+✅ Metrics
+
+✅ Markdown Export
+
+✅ Evaluation Framework
+
+✅ Report Repository
+
+✅ History CLI
+
+✅ Latest CLI
+
+✅ Show CLI
+
+✅ Search CLI
+
+✅ Compare CLI
+
+✅ Statistics CLI
+
+✅ Real Report Filtering
+
+✅ 27 Passing Tests
 
 ✅ Ruff Validation
 ```
 
 ---
 
-## Validation Criteria
+# Validation Criteria
 
 Completed:
 
 ```text
-✅ Multi-agent workflow operational
+✅ Multi-Agent Workflow Operational
 
-✅ Structured reports generated
+✅ Structured Reports Generated
 
-✅ Pytest passing
+✅ Repository Operational
 
-✅ Ruff validation passing
+✅ Search Functional
 
-✅ End-to-End execution validated
+✅ Report Comparison Functional
 
-✅ Documentation updated
+✅ Statistics Functional
+
+✅ Pytest Passing
+
+✅ Ruff Validation Passing
+
+✅ End-to-End Execution Validated
+
+✅ Documentation Updated
 ```
 
 ---
 
-## Run
-
-### Full Workflow
-
-```bash
-python -m app.playground_workflow
-```
-
----
-
-### Search Agent
-
-```bash
-python -m app.playground
-```
-
----
-
-### Search → Summary Handoff
-
-```bash
-python -m app.playground_summary
-```
-
----
-
-## Run Tests
+# Run Tests
 
 ```bash
 python -m pytest -v
@@ -484,12 +564,12 @@ python -m pytest -v
 Current Status:
 
 ```text
-✅ 15 tests passing
+✅ 27 tests passing
 ```
 
 ---
 
-## Quality Checks
+# Quality Checks
 
 ```bash
 python -m ruff check .
@@ -503,7 +583,7 @@ Current Status:
 
 ---
 
-## Expected Learning Outcomes
+# Expected Learning Outcomes
 
 This project introduces:
 
@@ -516,33 +596,39 @@ This project introduces:
 - Serialization layers
 - Retry strategies
 - Timeout management
+- Evaluation frameworks
+- Repository patterns
+- Report indexing
+- Search systems
+- Comparison systems
+- Statistics systems
 - Production-ready design patterns
 
 ---
 
-## Next Evolution
+# Next Evolution
 
-Sprint 04 — Production Readiness
+## Sprint 06 — Knowledge Worker Foundations
 
-Planned work:
+Planned capabilities:
 
 ```text
-Execution Logging
+Top Reports
         ↓
-Workflow Metrics
+Related Reports
         ↓
-Markdown Export
+Recommendations
         ↓
-CLI Interface
+Topic Discovery
         ↓
-Evaluation Framework
+Knowledge Map
         ↓
-Multi-Topic Research
+Cross-Report Analysis
 ```
 
 ---
 
-## Roadmap Position
+# Roadmap Position
 
 ```text
 Research Assistant
@@ -556,4 +642,4 @@ Multi-Agent Systems
 Autonomous Organization
 ```
 
-The Research Assistant serves as the foundation for all future AI systems developed in this repository.
+Research Assistant v1.0 serves as the foundation for all future AI systems developed in the Autonomous AI Agents Hub ecosystem.
