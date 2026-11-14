@@ -158,4 +158,24 @@ class ReportRepository:
                     report
                 )
 
-        return results    
+        return results
+    
+    @classmethod
+    def compare_reports(
+        cls,
+        first_filename: str,
+        second_filename: str,
+    ) -> tuple[ReportMetadata, ReportMetadata]:
+
+        first_report = cls.get_metadata(
+            first_filename
+        )
+
+        second_report = cls.get_metadata(
+            second_filename
+        )
+
+        return (
+            first_report,
+            second_report,
+        )        

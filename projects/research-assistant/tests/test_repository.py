@@ -170,4 +170,66 @@ Grade: EXCELLENT
     assert (
         results[0].topic
         == "Fusion Energy"
+    )
+    
+def test_compare_reports(
+    tmp_path,
+    monkeypatch,
+):
+
+    monkeypatch.setattr(
+        ReportRepository,
+        "REPORTS_DIR",
+        tmp_path,
+    )
+
+    (
+        tmp_path
+        / "report_a.md"
+    ).write_text(
+        """
+## Topic
+
+Fusion Energy
+
+---
+
+Score: 95
+
+Grade: EXCELLENT
+""",
+        encoding="utf-8",
+    )
+
+    (
+        tmp_path
+        / "report_b.md"
+    ).write_text(
+        """
+## Topic
+
+History
+
+---
+
+Score: 75
+
+Grade: GOOD
+""",
+        encoding="utf-8",
+    )
+
+    report_a, report_b = (
+        ReportRepository.compare_reports(
+            "report_a.md",
+            "report_b.md",
+        )
+    )
+
+    assert (
+        report_a.score == 95
+    )
+
+    assert (
+        report_b.score == 75
     )        

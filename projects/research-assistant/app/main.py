@@ -241,7 +241,178 @@ async def main():
             print()
 
         return
+    
+        #
+    # Compare Reports
+    #
 
+    if sys.argv[1] == "--compare":
+
+        if len(sys.argv) < 4:
+
+            print(
+                "Usage:"
+            )
+
+            print(
+                "python -m app.main "
+                "--compare "
+                "<report_a> "
+                "<report_b>"
+            )
+
+            return
+
+        report_a_filename = (
+            sys.argv[2]
+        )
+
+        report_b_filename = (
+            sys.argv[3]
+        )
+
+        (
+            report_a,
+            report_b,
+        ) = (
+            ReportRepository
+            .compare_reports(
+                report_a_filename,
+                report_b_filename,
+            )
+        )
+
+        print()
+
+        print(
+            "REPORT COMPARISON"
+        )
+
+        print(
+            "=" * 40
+        )
+
+        print()
+
+        print(
+            "REPORT A"
+        )
+
+        print(
+            "-" * 40
+        )
+
+        print(
+            f"Topic: "
+            f"{report_a.topic}"
+        )
+
+        print(
+            f"Score: "
+            f"{report_a.score}"
+        )
+
+        print(
+            f"Grade: "
+            f"{report_a.grade}"
+        )
+
+        print(
+            f"File: "
+            f"{report_a.filename}"
+        )
+
+        print()
+
+        print(
+            "REPORT B"
+        )
+
+        print(
+            "-" * 40
+        )
+
+        print(
+            f"Topic: "
+            f"{report_b.topic}"
+        )
+
+        print(
+            f"Score: "
+            f"{report_b.score}"
+        )
+
+        print(
+            f"Grade: "
+            f"{report_b.grade}"
+        )
+
+        print(
+            f"File: "
+            f"{report_b.filename}"
+        )
+
+        print()
+
+        print(
+            "-" * 40
+        )
+
+        if (
+            report_a.score
+            > report_b.score
+        ):
+
+            winner = report_a
+
+        elif (
+            report_b.score
+            > report_a.score
+        ):
+
+            winner = report_b
+
+        else:
+
+            winner = None
+
+        print()
+
+        print(
+            "BEST REPORT"
+        )
+
+        print()
+
+        if winner is None:
+
+            print(
+                "Tie"
+            )
+
+            print(
+                f"Score: "
+                f"{report_a.score}"
+            )
+
+        else:
+
+            print(
+                winner.topic
+            )
+
+            print(
+                f"Score: "
+                f"{winner.score}"
+            )
+
+            print(
+                f"Grade: "
+                f"{winner.grade}"
+            )
+
+        return
+    
     #
     # Research Workflow
     #
