@@ -1,6 +1,9 @@
 from app.analyzers.related_reports import (
     RelatedReportsAnalyzer,
 )
+from app.analyzers.recommendations import (
+    RecommendationsAnalyzer,
+)
 from app.analyzers.top_reports import (
     TopReportsAnalyzer,
 )
@@ -68,6 +71,23 @@ class KnowledgeService:
             RelatedReportsAnalyzer
             .find_related_reports(
                 target,
+                reports,
+            )
+        )
+        
+    @classmethod
+    def get_recommendations(
+        cls,
+    ) -> list[str]:
+
+        reports = (
+            ReportRepository
+            .list_report_metadata()
+        )
+
+        return (
+            RecommendationsAnalyzer
+            .get_recommendations(
                 reports,
             )
         )

@@ -76,6 +76,33 @@ def show_topics() -> None:
         )
 
 
+def show_recommendations() -> None:
+
+    recommendations = (
+        KnowledgeService
+        .get_recommendations()
+    )
+
+    print()
+    print("RECOMMENDATIONS")
+    print("=" * 40)
+    print()
+
+    if not recommendations:
+
+        print(
+            "No recommendations found."
+        )
+
+        return
+
+    for recommendation in recommendations:
+
+        print(
+            recommendation
+        )
+
+
 def main(
     args=None,
 ) -> None:
@@ -86,12 +113,20 @@ def main(
 
     if not args:
 
-        print("Usage:")
+        print(
+            "Usage:"
+        )
+
         print(
             "python -m app.main --top-reports"
         )
+
         print(
             "python -m app.main --topics"
+        )
+
+        print(
+            "python -m app.main --recommendations"
         )
 
         return
@@ -105,6 +140,12 @@ def main(
     if "--topics" in args:
 
         show_topics()
+
+        return
+
+    if "--recommendations" in args:
+
+        show_recommendations()
 
         return
 
