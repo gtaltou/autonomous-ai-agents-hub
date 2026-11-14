@@ -11,7 +11,6 @@ from app.services.knowledge_service import (
 )
 
 
-
 def test_get_top_reports_sorted_by_score():
 
     reports = [

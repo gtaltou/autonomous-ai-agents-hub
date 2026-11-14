@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from app.repositories.report_repository import (
     ReportRepository,
 )
@@ -353,12 +355,6 @@ def test_list_reports_only_markdown_files(
         == "report.md"
     )
     
-from pathlib import Path
-
-from app.repositories.report_repository import (
-    ReportRepository,
-)
-
 
 def test_list_reports_missing_directory(
     monkeypatch,
@@ -381,12 +377,6 @@ def test_list_reports_missing_directory(
 
     assert reports == []
     
-from pathlib import Path
-
-from app.repositories.report_repository import (
-    ReportRepository,
-)
-
 
 def test_list_report_metadata_missing_directory(
     monkeypatch,

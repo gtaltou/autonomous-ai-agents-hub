@@ -11,13 +11,14 @@ class RelatedReportsAnalyzer:
         target: ReportMetadata,
         reports: list[ReportMetadata],
     ) -> list[ReportMetadata]:
-
         target_words = {
             word.lower()
             for word in target.topic.split()
         }
 
-        related = []
+        scored_reports: list[
+            tuple[int, ReportMetadata]
+        ] = []
 
         for report in reports:
 
@@ -34,10 +35,26 @@ class RelatedReportsAnalyzer:
                 & report_words
             )
 
-            if shared_words:
+            similarity_score = (
+                len(shared_words)
+            )
 
-                related.append(
-                    report
+            if similarity_score > 0:
+
+                scored_reports.append(
+                    (
+                        similarity_score,
+                        report,
+                    )
                 )
 
-        return related
+        scored_reports.sort(
+            key=lambda item: item[0],
+            reverse=True,
+        )
+
+        return [
+            report
+            for _, report
+            in scored_reports
+        ]

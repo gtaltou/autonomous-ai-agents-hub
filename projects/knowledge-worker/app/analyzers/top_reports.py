@@ -3,11 +3,6 @@ from app.models.report_metadata import (
 )
 
 
-from app.models.report_metadata import (
-    ReportMetadata,
-)
-
-
 class TopReportsAnalyzer:
 
     @classmethod

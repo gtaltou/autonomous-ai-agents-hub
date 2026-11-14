@@ -82,4 +82,49 @@ def test_find_related_reports_excludes_target():
         )
     )
 
-    assert related == []  
+    assert related == []
+    
+
+    
+def test_related_reports_sorted_by_similarity():
+    
+    target = ReportMetadata(
+        filename="target.md",
+        topic="Fusion Energy",
+        score=95,
+        grade="EXCELLENT",
+    )
+
+    reports = [
+        target,
+        ReportMetadata(
+            filename="a.md",
+            topic="Fusion Technology",
+            score=80,
+            grade="GOOD",
+        ),
+        ReportMetadata(
+            filename="b.md",
+            topic="Fusion Energy Research",
+            score=80,
+            grade="GOOD",
+        ),
+    ]
+
+    related = (
+        RelatedReportsAnalyzer
+        .find_related_reports(
+            target,
+            reports,
+        )
+    )
+
+    assert (
+        related[0].topic
+        == "Fusion Energy Research"
+    )
+
+    assert (
+        related[1].topic
+        == "Fusion Technology"
+    )   
