@@ -1,4 +1,9 @@
+import re
 from pathlib import Path
+
+from app.models import (
+    ReportMetadata,
+)
 
 
 class ReportRepository:
@@ -13,6 +18,7 @@ class ReportRepository:
     ) -> list[str]:
 
         if not cls.REPORTS_DIR.exists():
+
             return []
 
         return sorted(
@@ -45,3 +51,81 @@ class ReportRepository:
         return filepath.read_text(
             encoding="utf-8",
         )
+
+    @classmethod
+    def get_metadata(
+        cls,
+        filename: str,
+    ) -> ReportMetadata:
+
+        content = cls.read_report(
+            filename
+        )
+
+        topic_match = re.search(
+            r"## Topic\s+(.+?)\s+---",
+            content,
+            re.DOTALL,
+        )
+
+        score_match = re.search(
+            r"(?:Overall )?Score:\s*(\d+)",
+            content,
+        )
+
+        grade_match = re.search(
+            r"Grade:\s*([A-Z ]+)",
+            content,
+        )
+
+        topic = (
+            topic_match.group(1).strip()
+            if topic_match
+            else "Unknown"
+        )
+
+        score = (
+            int(score_match.group(1))
+            if score_match
+            else 0
+        )
+
+        grade = (
+            grade_match.group(1).strip()
+            if grade_match
+            else "UNKNOWN"
+        )
+
+        return ReportMetadata(
+            filename=filename,
+            topic=topic,
+            score=score,
+            grade=grade,
+        )
+
+    @classmethod
+    def list_report_metadata(
+        cls,
+    ) -> list[ReportMetadata]:
+
+        reports = (
+            cls.list_reports()
+        )
+
+        metadata = []
+
+        for report in reports:
+
+            try:
+
+                metadata.append(
+                    cls.get_metadata(
+                        report
+                    )
+                )
+
+            except Exception:
+
+                continue
+
+        return metadata
