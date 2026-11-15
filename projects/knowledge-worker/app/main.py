@@ -1,3 +1,4 @@
+import json
 import sys
 
 from app.repositories.report_repository import (
@@ -8,12 +9,32 @@ from app.services.knowledge_service import (
 )
 
 
-def show_top_reports() -> None:
+def show_top_reports(
+    as_json: bool = False,
+) -> None:
 
     reports = (
         KnowledgeService
         .get_top_reports()
     )
+
+    if as_json:
+
+        print(
+            json.dumps(
+                [
+                    {
+                        "topic": report.topic,
+                        "score": report.score,
+                        "grade": report.grade,
+                    }
+                    for report in reports
+                ],
+                indent=4,
+            )
+        )
+
+        return
 
     print()
     print("TOP REPORTS")
@@ -48,12 +69,25 @@ def show_top_reports() -> None:
         print()
 
 
-def show_topics() -> None:
+def show_topics(
+    as_json: bool = False,
+) -> None:
 
     topics = (
         KnowledgeService
         .get_topics()
     )
+
+    if as_json:
+
+        print(
+            json.dumps(
+                topics,
+                indent=4,
+            )
+        )
+
+        return
 
     print()
     print("TOPICS")
@@ -81,6 +115,7 @@ def show_topics() -> None:
 
 def show_recommendations(
     limit: int = 3,
+    as_json: bool = False,
 ) -> None:
 
     recommendations = (
@@ -89,6 +124,17 @@ def show_recommendations(
             limit=limit,
         )
     )
+
+    if as_json:
+
+        print(
+            json.dumps(
+                recommendations,
+                indent=4,
+            )
+        )
+
+        return
 
     print()
     print("RECOMMENDATIONS")
@@ -110,12 +156,31 @@ def show_recommendations(
         )
 
 
-def show_top_topics() -> None:
+def show_top_topics(
+    as_json: bool = False,
+) -> None:
 
     topics = (
         KnowledgeService
         .get_top_topics()
     )
+
+    if as_json:
+
+        print(
+            json.dumps(
+                [
+                    {
+                        "topic": topic,
+                        "count": count,
+                    }
+                    for topic, count in topics
+                ],
+                indent=4,
+            )
+        )
+
+        return
 
     print()
     print("TOP TOPICS")
@@ -145,6 +210,7 @@ def show_top_topics() -> None:
 
 def show_related_reports(
     topic: str,
+    as_json: bool = False,
 ) -> None:
 
     reports = (
@@ -176,6 +242,24 @@ def show_related_reports(
             target,
         )
     )
+
+    if as_json:
+
+        print(
+            json.dumps(
+                [
+                    {
+                        "topic": report.topic,
+                        "score": report.score,
+                        "grade": report.grade,
+                    }
+                    for report in related_reports
+                ],
+                indent=4,
+            )
+        )
+
+        return
 
     print()
     print("RELATED REPORTS")
@@ -210,47 +294,56 @@ def main(
 
         args = sys.argv[1:]
 
+    as_json = (
+        "--json"
+        in args
+    )
+
     if not args:
 
         print("Usage:")
-
         print(
             "python -m app.main --top-reports"
         )
-
         print(
             "python -m app.main --topics"
         )
-
         print(
             "python -m app.main --top-topics"
         )
-
         print(
             "python -m app.main --recommendations [limit]"
         )
-
         print(
             'python -m app.main --related "topic"'
+        )
+        print(
+            "python -m app.main [command] --json"
         )
 
         return
 
     if "--top-reports" in args:
 
-        show_top_reports()
+        show_top_reports(
+            as_json=as_json,
+        )
 
         return
 
     if "--topics" in args:
 
-        show_topics()
+        show_topics(
+            as_json=as_json,
+        )
 
         return
 
     if "--top-topics" in args:
 
-        show_top_topics()
+        show_top_topics(
+            as_json=as_json,
+        )
 
         return
 
@@ -279,6 +372,7 @@ def main(
 
         show_related_reports(
             topic,
+            as_json=as_json,
         )
 
         return
@@ -287,12 +381,27 @@ def main(
 
         limit = 3
 
-        if len(args) > 1:
+        recommendation_index = (
+            args.index(
+                "--recommendations"
+            )
+        )
+
+        if (
+            recommendation_index + 1
+            < len(args)
+            and args[
+                recommendation_index + 1
+            ] != "--json"
+        ):
 
             try:
 
                 limit = int(
-                    args[1]
+                    args[
+                        recommendation_index
+                        + 1
+                    ]
                 )
 
             except ValueError:
@@ -305,6 +414,7 @@ def main(
 
         show_recommendations(
             limit=limit,
+            as_json=as_json,
         )
 
         return

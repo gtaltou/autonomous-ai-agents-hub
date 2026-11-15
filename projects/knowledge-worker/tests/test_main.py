@@ -209,4 +209,130 @@ def test_main_related(
     assert (
         "Fusion Energy Research"
         in captured.out
-    )    
+    )
+    
+def test_main_topics_json(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_topics",
+        lambda: {
+            "fusion": 2,
+            "energy": 1,
+        },
+    )
+
+    main(
+        [
+            "--topics",
+            "--json",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert '"fusion": 2' in captured.out
+    assert '"energy": 1' in captured.out
+    
+def test_main_recommendations_json(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_recommendations",
+        lambda limit=3: [
+            "energy",
+            "fusion",
+        ],
+    )
+
+    main(
+        [
+            "--recommendations",
+            "--json",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert '"energy"' in captured.out
+    assert '"fusion"' in captured.out
+    
+def test_main_top_topics_json(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_top_topics",
+        lambda: [
+            ("energy", 2),
+            ("fusion", 2),
+        ],
+    )
+
+    main(
+        [
+            "--top-topics",
+            "--json",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert '"topic": "energy"' in captured.out
+    assert '"count": 2' in captured.out
+    
+def test_main_related_json(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.ReportRepository.list_report_metadata",
+        lambda: [
+            ReportMetadata(
+                filename="target.md",
+                topic="Fusion Energy",
+                score=95,
+                grade="EXCELLENT",
+            )
+        ],
+    )
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_related_reports",
+        lambda target: [
+            ReportMetadata(
+                filename="related.md",
+                topic="Fusion Research",
+                score=85,
+                grade="GOOD",
+            )
+        ],
+    )
+
+    main(
+        [
+            "--related",
+            "Fusion Energy",
+            "--json",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert '"topic": "Fusion Research"' in captured.out
+    assert '"score": 85' in captured.out
+    assert '"grade": "GOOD"' in captured.out            
