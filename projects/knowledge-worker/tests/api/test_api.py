@@ -73,14 +73,21 @@ def test_recommendations():
         == 200
     )
 
+    data = response.json()
+
+    assert (
+        "recommendations"
+        in data
+    )
+
     assert isinstance(
-        response.json(),
+        data["recommendations"],
         list,
     )
 
     assert len(
-        response.json()
-    ) > 0  
+        data["recommendations"]
+    ) > 0 
     
 def test_top_reports():
     
@@ -132,4 +139,5 @@ def test_related_reports_not_found():
     assert (
         response.status_code
         == 404
-    )       
+    )
+    
