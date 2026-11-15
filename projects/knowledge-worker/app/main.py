@@ -1,5 +1,8 @@
 import sys
 
+from app.repositories.report_repository import (
+    ReportRepository,
+)
 from app.services.knowledge_service import (
     KnowledgeService,
 )
@@ -140,6 +143,65 @@ def show_top_topics() -> None:
         )
 
 
+def show_related_reports(
+    topic: str,
+) -> None:
+
+    reports = (
+        ReportRepository
+        .list_report_metadata()
+    )
+
+    target = next(
+        (
+            report
+            for report in reports
+            if report.topic.lower()
+            == topic.lower()
+        ),
+        None,
+    )
+
+    if target is None:
+
+        print(
+            "Topic not found."
+        )
+
+        return
+
+    related_reports = (
+        KnowledgeService
+        .get_related_reports(
+            target,
+        )
+    )
+
+    print()
+    print("RELATED REPORTS")
+    print("=" * 40)
+    print()
+
+    if not related_reports:
+
+        print(
+            "No related reports found."
+        )
+
+        return
+
+    for index, report in enumerate(
+        related_reports,
+        start=1,
+    ):
+
+        print(
+            f"{index}. {report.topic}"
+        )
+
+        print()
+
+
 def main(
     args=None,
 ) -> None:
@@ -151,17 +213,25 @@ def main(
     if not args:
 
         print("Usage:")
+
         print(
             "python -m app.main --top-reports"
         )
+
         print(
             "python -m app.main --topics"
         )
+
+        print(
+            "python -m app.main --top-topics"
+        )
+
         print(
             "python -m app.main --recommendations [limit]"
         )
+
         print(
-            "python -m app.main --top-topics"
+            'python -m app.main --related "topic"'
         )
 
         return
@@ -181,6 +251,35 @@ def main(
     if "--top-topics" in args:
 
         show_top_topics()
+
+        return
+
+    if "--related" in args:
+
+        related_index = (
+            args.index(
+                "--related"
+            )
+        )
+
+        if (
+            related_index + 1
+            >= len(args)
+        ):
+
+            print(
+                "Missing topic."
+            )
+
+            return
+
+        topic = args[
+            related_index + 1
+        ]
+
+        show_related_reports(
+            topic,
+        )
 
         return
 

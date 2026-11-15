@@ -177,3 +177,36 @@ def test_main_unknown_command(
         "Unknown command"
         in captured.out
     )
+    
+def test_main_related(
+    monkeypatch,
+    capsys,
+):
+
+    monkeypatch.setattr(
+        "app.main.KnowledgeService.get_related_reports",
+        lambda topic: [
+            ReportMetadata(
+                filename="related.md",
+                topic="Fusion Energy Research",
+                score=85,
+                grade="GOOD",
+            )
+        ],
+    )
+
+    main(
+        [
+            "--related",
+            "Fusion Energy",
+        ]
+    )
+
+    captured = (
+        capsys.readouterr()
+    )
+
+    assert (
+        "Fusion Energy Research"
+        in captured.out
+    )    

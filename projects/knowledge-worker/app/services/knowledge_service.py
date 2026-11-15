@@ -77,10 +77,11 @@ class KnowledgeService:
                 reports,
             )
         )
-        
+
     @classmethod
     def get_recommendations(
         cls,
+        limit: int = 3,
     ) -> list[str]:
 
         reports = (
@@ -92,10 +93,10 @@ class KnowledgeService:
             RecommendationsAnalyzer
             .get_recommendations(
                 reports,
+                limit=limit,
             )
         )
-       
-   
+
     @classmethod
     def get_top_topics(
         cls,
