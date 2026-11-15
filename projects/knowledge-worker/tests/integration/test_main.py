@@ -1,3 +1,5 @@
+import pytest
+
 from app.main import (
     main,
 )
@@ -6,6 +8,7 @@ from app.models.report_metadata import (
 )
 
 
+@pytest.mark.integration
 def test_main_without_arguments(
     capsys,
 ):
@@ -18,7 +21,7 @@ def test_main_without_arguments(
 
     assert "Usage" in captured.out
 
-
+@pytest.mark.integration
 def test_main_topics(
     monkeypatch,
     capsys,
@@ -44,7 +47,7 @@ def test_main_topics(
 
     assert "energy" in captured.out
 
-
+@pytest.mark.integration
 def test_main_top_reports(
     monkeypatch,
     capsys,
@@ -75,7 +78,7 @@ def test_main_top_reports(
         in captured.out
     )
 
-
+@pytest.mark.integration
 def test_main_recommendations(
     monkeypatch,
     capsys,
@@ -102,7 +105,7 @@ def test_main_recommendations(
 
     assert "fusion" in captured.out
 
-
+@pytest.mark.integration
 def test_main_recommendations_with_limit(
     monkeypatch,
     capsys,
@@ -131,7 +134,7 @@ def test_main_recommendations_with_limit(
 
     assert "fusion" in captured.out
 
-
+@pytest.mark.integration
 def test_main_top_topics(
     monkeypatch,
     capsys,
@@ -160,7 +163,7 @@ def test_main_top_topics(
 
     assert "fusion" in captured.out
 
-
+@pytest.mark.integration
 def test_main_unknown_command(
     capsys,
 ):
@@ -178,6 +181,7 @@ def test_main_unknown_command(
         in captured.out
     )
     
+@pytest.mark.integration    
 def test_main_related(
     monkeypatch,
     capsys,
@@ -237,7 +241,8 @@ def test_main_topics_json(
 
     assert '"fusion": 2' in captured.out
     assert '"energy": 1' in captured.out
-    
+
+@pytest.mark.integration  
 def test_main_recommendations_json(
     monkeypatch,
     capsys,
@@ -265,6 +270,7 @@ def test_main_recommendations_json(
     assert '"energy"' in captured.out
     assert '"fusion"' in captured.out
     
+@pytest.mark.integration    
 def test_main_top_topics_json(
     monkeypatch,
     capsys,
@@ -292,6 +298,7 @@ def test_main_top_topics_json(
     assert '"topic": "energy"' in captured.out
     assert '"count": 2' in captured.out
     
+@pytest.mark.integration    
 def test_main_related_json(
     monkeypatch,
     capsys,

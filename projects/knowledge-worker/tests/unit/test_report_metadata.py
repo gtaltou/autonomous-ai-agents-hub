@@ -1,7 +1,10 @@
+import pytest
+
 from app.models.report_metadata import (
     ReportMetadata,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_report_metadata_model():
 

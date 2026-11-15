@@ -10,6 +10,7 @@ from app.services.knowledge_service import (
     KnowledgeService,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_get_top_reports_sorted_by_score():
 

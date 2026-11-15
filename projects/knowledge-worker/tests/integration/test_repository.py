@@ -1,10 +1,13 @@
 from pathlib import Path
 
+import pytest
+
 from app.repositories.report_repository import (
     ReportRepository,
 )
 
 
+@pytest.mark.integration
 def test_list_report_metadata(
     tmp_path,
     monkeypatch,
@@ -55,7 +58,7 @@ Grade: EXCELLENT
         reports[0].grade
         == "EXCELLENT"
     )
-    
+@pytest.mark.integration   
 def test_get_metadata_empty_report(
     tmp_path,
     monkeypatch,
@@ -98,7 +101,7 @@ def test_get_metadata_empty_report(
         metadata.grade
         == "UNKNOWN"
     )
-    
+@pytest.mark.integration   
 def test_get_metadata_missing_score(
     tmp_path,
     monkeypatch,
@@ -149,7 +152,7 @@ Grade: EXCELLENT
         metadata.grade
         == "EXCELLENT"
     )
-    
+@pytest.mark.integration    
 def test_get_metadata_missing_grade(
     tmp_path,
     monkeypatch,
@@ -200,7 +203,8 @@ Score: 95
         metadata.grade
         == "UNKNOWN"
     )
-    
+   
+@pytest.mark.integration
 def test_list_report_metadata_skips_invalid_files(
     tmp_path,
     monkeypatch,
@@ -244,7 +248,8 @@ Grade: EXCELLENT
     )
 
     assert len(reports) == 2
-    
+   
+@pytest.mark.integration
 def test_list_report_metadata_ignores_non_markdown_files(
     tmp_path,
     monkeypatch,
@@ -316,7 +321,8 @@ Grade: EXCELLENT
         reports[0].topic
         == "Fusion Energy"
     )
-    
+   
+@pytest.mark.integration
 def test_list_reports_only_markdown_files(
     tmp_path,
     monkeypatch,
@@ -356,6 +362,7 @@ def test_list_reports_only_markdown_files(
     )
     
 
+@pytest.mark.integration
 def test_list_reports_missing_directory(
     monkeypatch,
 ):
@@ -378,6 +385,7 @@ def test_list_reports_missing_directory(
     assert reports == []
     
 
+@pytest.mark.integration
 def test_list_report_metadata_missing_directory(
     monkeypatch,
 ):
@@ -399,6 +407,7 @@ def test_list_report_metadata_missing_directory(
 
     assert metadata == []
 
+@pytest.mark.integration
 def test_list_reports_reports_dir_is_file(
     tmp_path,
     monkeypatch,
@@ -427,24 +436,8 @@ def test_list_reports_reports_dir_is_file(
 
     assert reports == [] 
     
-@classmethod
-def list_reports(
-    cls,
-) -> list[Path]:
-
-    if (
-        not cls.REPORTS_DIR.exists()
-        or not cls.REPORTS_DIR.is_dir()
-    ):
-
-        return []
-
-    return sorted(
-        cls.REPORTS_DIR.glob(
-            "*.md"
-        )
-    ) 
-    
+ 
+@pytest.mark.integration 
 def test_list_report_metadata_reports_dir_is_file(
     tmp_path,
     monkeypatch,
@@ -472,4 +465,22 @@ def test_list_report_metadata_reports_dir_is_file(
     )
 
     assert reports == []  
-    
+
+@classmethod
+@pytest.mark.integration
+def list_reports(
+    cls,
+) -> list[Path]:
+
+    if (
+        not cls.REPORTS_DIR.exists()
+        or not cls.REPORTS_DIR.is_dir()
+    ):
+
+        return []
+
+    return sorted(
+        cls.REPORTS_DIR.glob(
+            "*.md"
+        )
+    )

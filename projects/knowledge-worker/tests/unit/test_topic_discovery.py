@@ -1,3 +1,5 @@
+import pytest
+
 from app.analyzers.topic_discovery import (
     TopicDiscoveryAnalyzer,
 )
@@ -5,6 +7,7 @@ from app.models.report_metadata import (
     ReportMetadata,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_discover_topics():
 

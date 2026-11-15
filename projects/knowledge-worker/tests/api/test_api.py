@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from app.api import app
@@ -6,7 +7,7 @@ client = TestClient(
     app,
 )
 
-
+@pytest.mark.api
 def test_health():
 
     response = client.get(
@@ -25,7 +26,7 @@ def test_health():
         }
     )
 
-
+@pytest.mark.api
 def test_topics():
 
     response = client.get(
@@ -42,6 +43,7 @@ def test_topics():
         dict,
     )
     
+@pytest.mark.api    
 def test_top_topics():
     
     response = client.get(
@@ -62,6 +64,7 @@ def test_top_topics():
         response.json()
     ) > 0 
     
+@pytest.mark.api  
 def test_recommendations():
     
     response = client.get(
@@ -87,8 +90,9 @@ def test_recommendations():
 
     assert len(
         data["recommendations"]
-    ) > 0 
-    
+    ) > 0
+     
+@pytest.mark.api 
 def test_top_reports():
     
     response = client.get(
@@ -109,6 +113,7 @@ def test_top_reports():
         response.json()
     ) > 0
     
+@pytest.mark.api 
 def test_related_reports():
     
     response = client.get(
@@ -129,7 +134,7 @@ def test_related_reports():
         response.json()
     ) > 0 
     
-
+@pytest.mark.api
 def test_related_reports_not_found():
     
     response = client.get(

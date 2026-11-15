@@ -1,3 +1,5 @@
+import pytest
+
 from app.analyzers.related_reports import (
     RelatedReportsAnalyzer,
 )
@@ -5,6 +7,7 @@ from app.models.report_metadata import (
     ReportMetadata,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_find_related_reports():
 

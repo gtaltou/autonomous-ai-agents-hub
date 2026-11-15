@@ -4,6 +4,7 @@ from app.analyzers.top_topics import (
     TopTopicsAnalyzer,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_get_top_topics():
 

@@ -1,12 +1,36 @@
+from pathlib import Path
+
+import pytest
 from fastapi.testclient import TestClient
 
 from app.api import app
+
+pytestmark = pytest.mark.integration
 
 client = TestClient(
     app,
 )
 
+    
 
+def list_reports(
+    cls,
+) -> list[Path]:
+
+    if (
+        not cls.REPORTS_DIR.exists()
+        or not cls.REPORTS_DIR.is_dir()
+    ):
+
+        return []
+
+    return sorted(
+        cls.REPORTS_DIR.glob(
+            "*.md"
+        )
+    )
+  
+        
 def test_api_workflow():
     
     health_response = client.get(

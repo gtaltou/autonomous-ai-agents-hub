@@ -8,6 +8,7 @@ from app.services.knowledge_service import (
 )
 
 
+@pytest.mark.integration
 def test_get_top_reports_limit(
     monkeypatch,
 ):
@@ -39,7 +40,7 @@ def test_get_top_reports_limit(
     
  
 
-
+@pytest.mark.integration
 def test_get_top_reports_invalid_limit(
     monkeypatch,
 ):
@@ -68,7 +69,7 @@ def test_get_top_reports_invalid_limit(
             limit=0,
         )
         
-
+@pytest.mark.integration
 def test_get_top_reports_negative_limit(
     monkeypatch,
 ):
@@ -99,6 +100,7 @@ def test_get_top_reports_negative_limit(
         
         
 @classmethod
+@pytest.mark.integration
 def get_top_reports(
     cls,
     reports: list[ReportMetadata],
@@ -126,7 +128,7 @@ def get_top_reports(
     return sorted_reports[:limit]
 
 
-
+@pytest.mark.integration
 def test_get_top_reports_string_limit(
     monkeypatch,
 ):
@@ -145,7 +147,8 @@ def test_get_top_reports_string_limit(
         KnowledgeService.get_top_reports(
             limit="5",
         )
-        
+
+@pytest.mark.integration       
 def test_get_topics(
     monkeypatch,
 ):
@@ -181,7 +184,8 @@ def test_get_topics(
     assert topics["energy"] == 1
 
     assert topics["research"] == 1
-    
+
+@pytest.mark.integration 
 def test_get_topics_empty_repository(
     monkeypatch,
 ):
@@ -198,7 +202,8 @@ def test_get_topics_empty_repository(
     )
 
     assert topics == {} 
-    
+
+@pytest.mark.integration 
 def test_get_related_reports(
     monkeypatch,
 ):

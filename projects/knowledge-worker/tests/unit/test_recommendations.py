@@ -10,6 +10,7 @@ from app.models.report_metadata import (
     ReportMetadata,
 )
 
+pytestmark = pytest.mark.unit
 
 def test_get_recommendations():
 
