@@ -330,7 +330,7 @@ autonomous-ai-agents-hub
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/btoul/autonomous-ai-agents-hub.git
+git clone https://github.com/gtaltou/autonomous-ai-agents-hub.git
 
 cd autonomous-ai-agents-hub
 
@@ -355,7 +355,7 @@ uv sync
 ### Clone Repository
 
 ```bash
-git clone https://github.com/btoul/autonomous-ai-agents-hub.git
+git clone https://github.com/gtaltou/autonomous-ai-agents-hub.git
 
 cd autonomous-ai-agents-hub
 ```
@@ -557,7 +557,7 @@ Quality Metrics
    - CLI Complete
    - JSON Export Complete
 
-🚧 Sprint 07 — Knowledge Worker API
+✅ Sprint 07 — Knowledge Worker API
 
 Goals:
 - FastAPI Integration
