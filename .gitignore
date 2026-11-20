@@ -64,6 +64,7 @@ vectorstore/
 # Coverage
 .coverage.*
 coverage.xml
+htmlcov/
 
 # UV
 uv.lock

@@ -1,6 +1,9 @@
  # 🤖 Autonomous AI Agents Hub
 
+
 [![CI](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml)
+
+![Coverage](assets/badges/coverage.svg)
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
