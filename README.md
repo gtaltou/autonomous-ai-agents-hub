@@ -1,10 +1,19 @@
-![Python](https://img.shields.io/badge/Python-3.12-blue)
+ # 🤖 Autonomous AI Agents Hub
+
+[![CI](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml)
+
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
+
 ![OpenAI](https://img.shields.io/badge/OpenAI-Agents_SDK-green)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-# 🤖 Autonomous AI Agents Hub
 
+Strategic portfolio dedicated to Agentic AI Engineering, progressing from simple agents to autonomous organizations.
+
+
+# 🚀
 A structured engineering roadmap focused on designing, evaluating and deploying production-ready AI agent systems.
 
 This repository documents the progressive implementation of modern Agentic AI architectures, from OpenAI Agents SDK fundamentals to advanced multi-agent ecosystems powered by RAG, MCP, LangGraph, CrewAI and AutoGen.
