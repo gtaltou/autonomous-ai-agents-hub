@@ -164,3 +164,7 @@ jobs:
       - name: Tests
         run: |
           pytest -v
+
+      - name: Build Docker Image
+        run: |
+          docker build -t knowledge-worker .
