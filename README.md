@@ -1,10 +1,22 @@
-![Python](https://img.shields.io/badge/Python-3.12-blue)
+ # 🤖 Autonomous AI Agents Hub
+
+
+[![CI](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml)
+
+![Coverage](assets/badges/coverage.svg)
+
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
+
 ![OpenAI](https://img.shields.io/badge/OpenAI-Agents_SDK-green)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-# 🤖 Autonomous AI Agents Hub
 
+Strategic portfolio dedicated to Agentic AI Engineering, progressing from simple agents to autonomous organizations.
+
+
+# 🚀
 A structured engineering roadmap focused on designing, evaluating and deploying production-ready AI agent systems.
 
 This repository documents the progressive implementation of modern Agentic AI architectures, from OpenAI Agents SDK fundamentals to advanced multi-agent ecosystems powered by RAG, MCP, LangGraph, CrewAI and AutoGen.
@@ -463,12 +475,16 @@ The Research Assistant serves as the first production-oriented project and the f
 ### Recently Completed
 
 ```text
-✅ Knowledge Worker v1.1.0
+✅ Knowledge Worker v1.2.1
+
+Architecture
 
 - Repository Layer
 - Analyzer Layer
 - Service Layer
-- CLI Interface
+- REST API Layer
+
+Capabilities
 
 - Top Reports
 - Related Reports
@@ -476,12 +492,38 @@ The Research Assistant serves as the first production-oriented project and the f
 - Top Topics
 - Recommendations
 
+Interfaces
+
+- Command-Line Interface
 - JSON Export
+- FastAPI REST API
+
+Documentation
+
+- OpenAPI Specification
+- Swagger UI
+
+Engineering
+
+- Docker Support
+- GitHub Actions CI
+- Monorepo Quality Pipeline
 
 Quality Metrics
 
-- 62 Tests Passed
+- 70 Passing Tests
+- 92% Code Coverage
 - Ruff Passing
+
+Testing Strategy
+
+- Unit Tests
+- Integration Tests
+- API Tests
+- End-to-End API Workflow
+
+Status
+
 - Production Ready
 ```
 
@@ -494,8 +536,10 @@ Quality Metrics
 - Tool Calling
 - Structured Outputs
 - Evaluation
-
----
+- Research Assistant v1.0
+- Knowledge Worker v1.2.1
+- Docker Foundation
+- Continuous Integration
 
 ### 🚀 Development Roadmap
 
