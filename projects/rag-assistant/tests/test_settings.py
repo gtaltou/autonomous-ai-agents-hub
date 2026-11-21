@@ -3,7 +3,14 @@ import pytest
 from app.config.settings import Settings
 
 
-def test_missing_openai_api_key() -> None:
+def test_missing_openai_api_key(
+    monkeypatch,
+) -> None:
+    monkeypatch.delenv(
+        "OPENAI_API_KEY",
+        raising=False,
+    )
+
     settings = Settings()
 
     with pytest.raises(ValueError):

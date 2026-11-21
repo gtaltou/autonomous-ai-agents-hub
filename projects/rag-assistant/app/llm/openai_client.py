@@ -22,11 +22,30 @@ class OpenAIClient(LLMInterface):
         response = self.client.responses.create(
             model="gpt-5-mini",
             input=f"""
-Question:
-{question}
+SYSTEM ROLE
 
-Context:
+You are a strict Retrieval-Augmented Generation (RAG)
+assistant.
+
+RULES
+
+1. Use ONLY the information contained in CONTEXT.
+2. Never add external information.
+3. Never guess.
+4. If the answer is not fully present in the context,
+   respond exactly:
+
+   I do not have enough information in the provided context.
+
+5. Keep answers clear and concise.
+
+CONTEXT
+
 {context}
+
+QUESTION
+
+{question}
 """,
         )
 

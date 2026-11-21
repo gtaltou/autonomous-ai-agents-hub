@@ -14,11 +14,12 @@ def main() -> None:
 
     chunks = chunk_text(
         text="Python is a programming language.",
-        source_document="sample.txt",
+        source_document="python.txt",
     )
 
+    print("------------------")
     store.add_documents(chunks)
-
+    print("-----------------")
     retrieval = RetrievalService(store)
 
     rag = RagPipeline(
@@ -26,7 +27,7 @@ def main() -> None:
         llm=OpenAIClient(),
     )
 
-    answer = rag.answer("What is Python?")
+    answer = rag.answer("Python")
 
     print(answer)
 
