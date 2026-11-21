@@ -1,3 +1,4 @@
+from app.llm.fake_llm import FakeLLM
 from app.rag.context_builder import ContextBuilder
 from app.retrieval.retrieval_service import (
     RetrievalService,
@@ -13,6 +14,7 @@ class RagPipeline:
     ) -> None:
         self.retrieval_service = retrieval_service
         self.context_builder = ContextBuilder()
+        self.llm = FakeLLM()
 
     def answer(
         self,
@@ -22,6 +24,11 @@ class RagPipeline:
             question,
         )
 
-        return self.context_builder.build(
+        context = self.context_builder.build(
             chunks,
+        )
+
+        return self.llm.generate(
+            context=context,
+            question=question,
         )

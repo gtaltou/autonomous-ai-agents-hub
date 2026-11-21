@@ -27,10 +27,10 @@ def test_answer_returns_context() -> None:
 
     answer = rag.answer("python")
 
-    assert "Python" in answer
+    assert "Python is awesome" in answer
 
 
-def test_answer_returns_empty_string() -> None:
+def test_answer_returns_empty_response() -> None:
     store = InMemoryVectorStore()
 
     retrieval = RetrievalService(store)
@@ -39,4 +39,28 @@ def test_answer_returns_empty_string() -> None:
 
     answer = rag.answer("python")
 
-    assert answer == ""
+    assert "Question: python" in answer
+    assert "Context:" in answer
+
+
+def test_answer_contains_question() -> None:
+    store = InMemoryVectorStore()
+
+    store.add_documents(
+        [
+            DocumentChunk(
+                chunk_id=1,
+                source_document="python.txt",
+                content="Python is awesome",
+            ),
+        ]
+    )
+
+    retrieval = RetrievalService(store)
+
+    rag = RagPipeline(retrieval)
+
+    answer = rag.answer("python")
+
+    assert "Question: python" in answer
+    assert "Python is awesome" in answer
