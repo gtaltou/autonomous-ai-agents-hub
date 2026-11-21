@@ -28,3 +28,15 @@ def test_answer_returns_context() -> None:
     answer = rag.answer("python")
 
     assert "Python" in answer
+
+
+def test_answer_returns_empty_string() -> None:
+    store = InMemoryVectorStore()
+
+    retrieval = RetrievalService(store)
+
+    rag = RagPipeline(retrieval)
+
+    answer = rag.answer("python")
+
+    assert answer == ""

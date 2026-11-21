@@ -1,3 +1,4 @@
+from app.rag.context_builder import ContextBuilder
 from app.retrieval.retrieval_service import (
     RetrievalService,
 )
@@ -11,6 +12,7 @@ class RagPipeline:
         retrieval_service: RetrievalService,
     ) -> None:
         self.retrieval_service = retrieval_service
+        self.context_builder = ContextBuilder()
 
     def answer(
         self,
@@ -20,4 +22,6 @@ class RagPipeline:
             question,
         )
 
-        return "\n".join(chunk.content for chunk in chunks)
+        return self.context_builder.build(
+            chunks,
+        )
