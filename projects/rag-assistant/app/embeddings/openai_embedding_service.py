@@ -1,12 +1,19 @@
 from openai import OpenAI
 
 from app.config.settings import Settings
+from app.embeddings.embedding_service import (
+    EmbeddingService,
+)
 
 
-class OpenAIEmbeddingService:
+class OpenAIEmbeddingService(
+    EmbeddingService,
+):
     """OpenAI embedding service."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+    ) -> None:
         settings = Settings()
 
         self.client = OpenAI(

@@ -1,6 +1,5 @@
-from app.embeddings.openai_embedding_service import (
-    OpenAIEmbeddingService,
-)
+from typing import Any
+
 from app.models.document_chunk import (
     DocumentChunk,
 )
@@ -14,7 +13,7 @@ class EmbeddingIndexer:
 
     def __init__(
         self,
-        embedding_service: OpenAIEmbeddingService,
+        embedding_service: Any,
     ) -> None:
         self.embedding_service = embedding_service
 

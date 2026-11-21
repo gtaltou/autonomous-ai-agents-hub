@@ -1,4 +1,7 @@
 from app.chunking.text_chunker import chunk_text
+from app.embeddings.cached_embedding_service import (
+    CachedEmbeddingService,
+)
 from app.embeddings.openai_embedding_service import (
     OpenAIEmbeddingService,
 )
@@ -18,13 +21,11 @@ from app.vectorstore.semantic_vector_store import (
 
 
 def main() -> None:
-    embedding_service = (
-        OpenAIEmbeddingService()
+    embedding_service = CachedEmbeddingService(
+        OpenAIEmbeddingService(),
     )
 
-    vector_store = (
-        SemanticVectorStore()
-    )
+    vector_store = SemanticVectorStore()
 
     chunks = chunk_text(
         text="Python is a programming language.",
@@ -35,21 +36,17 @@ def main() -> None:
         embedding_service,
     )
 
-    embedded_documents = (
-        embedding_indexer.index(
-            chunks,
-        )
+    embedded_documents = embedding_indexer.index(
+        chunks,
     )
 
     vector_store.add_documents(
         embedded_documents,
     )
 
-    retrieval_service = (
-        SemanticRetrievalService(
-            vector_store=vector_store,
-            embedding_service=embedding_service,
-        )
+    retrieval_service = SemanticRetrievalService(
+        vector_store=vector_store,
+        embedding_service=embedding_service,
     )
 
     rag = SemanticRagPipeline(
@@ -58,7 +55,7 @@ def main() -> None:
     )
 
     answer = rag.answer(
-        "What is Python?"
+        "What is Python?",
     )
 
     print(answer)
