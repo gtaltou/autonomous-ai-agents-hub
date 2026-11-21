@@ -1,4 +1,4 @@
-from app.llm.fake_llm import FakeLLM
+from app.llm.llm_interface import LLMInterface
 from app.rag.context_builder import ContextBuilder
 from app.retrieval.retrieval_service import (
     RetrievalService,
@@ -11,10 +11,11 @@ class RagPipeline:
     def __init__(
         self,
         retrieval_service: RetrievalService,
+        llm: LLMInterface,
     ) -> None:
         self.retrieval_service = retrieval_service
         self.context_builder = ContextBuilder()
-        self.llm = FakeLLM()
+        self.llm = llm
 
     def answer(
         self,
@@ -29,6 +30,6 @@ class RagPipeline:
         )
 
         return self.llm.generate(
-            context=context,
             question=question,
+            context=context,
         )

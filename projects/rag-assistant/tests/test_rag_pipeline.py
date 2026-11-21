@@ -1,3 +1,4 @@
+from app.llm.fake_llm import FakeLLM
 from app.models.document_chunk import DocumentChunk
 from app.rag.rag_pipeline import RagPipeline
 from app.retrieval.retrieval_service import (
@@ -23,7 +24,10 @@ def test_answer_returns_context() -> None:
 
     retrieval = RetrievalService(store)
 
-    rag = RagPipeline(retrieval)
+    rag = RagPipeline(
+        retrieval_service=retrieval,
+        llm=FakeLLM(),
+    )
 
     answer = rag.answer("python")
 
@@ -35,7 +39,10 @@ def test_answer_returns_empty_response() -> None:
 
     retrieval = RetrievalService(store)
 
-    rag = RagPipeline(retrieval)
+    rag = RagPipeline(
+        retrieval_service=retrieval,
+        llm=FakeLLM(),
+    )
 
     answer = rag.answer("python")
 
@@ -58,7 +65,10 @@ def test_answer_contains_question() -> None:
 
     retrieval = RetrievalService(store)
 
-    rag = RagPipeline(retrieval)
+    rag = RagPipeline(
+        retrieval_service=retrieval,
+        llm=FakeLLM(),
+    )
 
     answer = rag.answer("python")
 

@@ -1,9 +1,12 @@
-class FakeLLM:
-    """Simple fake LLM used for testing."""
+from app.llm.llm_interface import LLMInterface
+
+
+class FakeLLM(LLMInterface):
+    """Simple fake LLM."""
 
     def generate(
         self,
-        context: str,
         question: str,
+        context: str,
     ) -> str:
         return f"Question: {question}\nContext: {context}"

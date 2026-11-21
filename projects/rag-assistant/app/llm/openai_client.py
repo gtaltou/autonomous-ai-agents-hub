@@ -1,9 +1,10 @@
 from openai import OpenAI
 
 from app.config.settings import Settings
+from app.llm.llm_interface import LLMInterface
 
 
-class OpenAIClient:
+class OpenAIClient(LLMInterface):
     """OpenAI client."""
 
     def __init__(self) -> None:
@@ -18,8 +19,6 @@ class OpenAIClient:
         question: str,
         context: str,
     ) -> str:
-        """Generate an answer using OpenAI."""
-
         response = self.client.responses.create(
             model="gpt-5-mini",
             input=f"""
