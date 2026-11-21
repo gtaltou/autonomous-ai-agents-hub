@@ -4,41 +4,25 @@ from app.vectorstore.in_memory_vector_store import (
 )
 
 
-def test_add_documents() -> None:
+def test_similarity_search_filters_results() -> None:
     store = InMemoryVectorStore()
 
-    documents = [
-        DocumentChunk(
-            chunk_id=1,
-            source_document="test.txt",
-            content="Hello world",
-        )
-    ]
-
-    store.add_documents(documents)
-
-    results = store.similarity_search("hello")
-
-    assert len(results) == 1
-
-
-def test_similarity_search_respects_k() -> None:
-    store = InMemoryVectorStore()
-
-    documents = [
-        DocumentChunk(
-            chunk_id=i,
-            source_document="test.txt",
-            content=f"Chunk {i}",
-        )
-        for i in range(10)
-    ]
-
-    store.add_documents(documents)
-
-    results = store.similarity_search(
-        "query",
-        k=3,
+    store.add_documents(
+        [
+            DocumentChunk(
+                chunk_id=1,
+                source_document="python.txt",
+                content="Python is awesome",
+            ),
+            DocumentChunk(
+                chunk_id=2,
+                source_document="java.txt",
+                content="Java is verbose",
+            ),
+        ]
     )
 
-    assert len(results) == 3
+    results = store.similarity_search("python")
+
+    assert len(results) == 1
+    assert results[0].chunk_id == 1
