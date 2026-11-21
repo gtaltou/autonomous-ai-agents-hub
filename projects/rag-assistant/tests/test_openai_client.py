@@ -3,11 +3,26 @@ import pytest
 from app.llm.openai_client import OpenAIClient
 
 
-def test_generate_not_implemented() -> None:
+def test_client_requires_api_key(
+    monkeypatch,
+) -> None:
+    monkeypatch.delenv(
+        "OPENAI_API_KEY",
+        raising=False,
+    )
+
+    with pytest.raises(ValueError):
+        OpenAIClient()
+
+
+def test_client_initialization(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv(
+        "OPENAI_API_KEY",
+        "test-key",
+    )
+
     client = OpenAIClient()
 
-    with pytest.raises(NotImplementedError):
-        client.generate(
-            question="What is Python?",
-            context="Python is awesome",
-        )
+    assert client is not None

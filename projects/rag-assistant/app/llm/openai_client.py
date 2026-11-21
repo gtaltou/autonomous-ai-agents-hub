@@ -1,9 +1,14 @@
-class OpenAIClient:
-    """OpenAI client abstraction."""
+from openai import OpenAI
 
-    def generate(
-        self,
-        question: str,
-        context: str,
-    ) -> str:
-        raise NotImplementedError("OpenAI integration is not implemented yet.")
+from app.config.settings import Settings
+
+
+class OpenAIClient:
+    """OpenAI client."""
+
+    def __init__(self) -> None:
+        settings = Settings()
+
+        self.client = OpenAI(
+            api_key=settings.openai_api_key,
+        )
