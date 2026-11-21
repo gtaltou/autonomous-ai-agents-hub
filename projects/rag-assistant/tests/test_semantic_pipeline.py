@@ -3,11 +3,11 @@ from unittest.mock import Mock
 from app.models.document_chunk import (
     DocumentChunk,
 )
-from app.services.embedding_indexer import (
-    EmbeddingIndexer,
-)
 from app.retrieval.semantic_retrieval_service import (
     SemanticRetrievalService,
+)
+from app.services.embedding_indexer import (
+    EmbeddingIndexer,
 )
 from app.vectorstore.semantic_vector_store import (
     SemanticVectorStore,
@@ -40,11 +40,9 @@ def test_semantic_retrieval_flow() -> None:
         embedded,
     )
 
-    retrieval = (
-        SemanticRetrievalService(
-            store,
-            embedding_service,
-        )
+    retrieval = SemanticRetrievalService(
+        store,
+        embedding_service,
     )
 
     results = retrieval.retrieve(
@@ -53,7 +51,4 @@ def test_semantic_retrieval_flow() -> None:
 
     assert len(results) == 1
 
-    assert (
-        results[0].chunk.content
-        == "Python"
-    )
+    assert results[0].chunk.content == "Python"

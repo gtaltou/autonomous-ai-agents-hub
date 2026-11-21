@@ -27,10 +27,8 @@ class SemanticRetrievalService:
         query: str,
         k: int = 5,
     ) -> list[EmbeddedDocument]:
-        query_embedding = (
-            self.embedding_service.embed_text(
-                query,
-            )
+        query_embedding = self.embedding_service.embed_text(
+            query,
         )
 
         return self.vector_store.similarity_search(

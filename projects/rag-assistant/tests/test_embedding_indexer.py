@@ -35,12 +35,6 @@ def test_index_creates_embedded_documents() -> None:
 
     assert len(embedded_documents) == 1
 
-    assert (
-        embedded_documents[0].embedding
-        == [0.1, 0.2, 0.3]
-    )
+    assert embedded_documents[0].embedding == [0.1, 0.2, 0.3]
 
-    assert (
-        embedded_documents[0].chunk.content
-        == "Hello world"
-    )
+    assert embedded_documents[0].chunk.content == "Hello world"
