@@ -1,7 +1,12 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
 [tool.coverage.run]
 omit = [
     "app/main.py",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
