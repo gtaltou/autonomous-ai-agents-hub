@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - develop
+      - feature/**
 
   pull_request:
     branches:
@@ -12,9 +14,7 @@ on:
 jobs:
 
   hello-agent:
-
     name: Hello Agent
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -27,6 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       - name: Install Dependencies
         run: |
@@ -34,17 +35,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ruff
-        run: |
-          python -m ruff check .
+        run: ruff check .
 
       - name: Tests
-        run: |
-          pytest -v
+        run: pytest -v
 
   tool-calling:
-
     name: Tool Calling
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -57,6 +54,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       - name: Install Dependencies
         run: |
@@ -64,17 +62,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ruff
-        run: |
-          python -m ruff check .
+        run: ruff check .
 
       - name: Tests
-        run: |
-          pytest -v
+        run: pytest -v
 
   structured-output:
-
-    name: Structured Outputs
-
+    name: Structured Output
     runs-on: ubuntu-latest
 
     defaults:
@@ -87,6 +81,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       - name: Install Dependencies
         run: |
@@ -94,17 +89,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ruff
-        run: |
-          python -m ruff check .
+        run: ruff check .
 
       - name: Tests
-        run: |
-          pytest -v
+        run: pytest -v
 
   evaluation:
-
     name: Evaluation
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -117,6 +108,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       - name: Install Dependencies
         run: |
@@ -124,17 +116,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ruff
-        run: |
-          python -m ruff check .
+        run: ruff check .
 
       - name: Tests
-        run: |
-          pytest -v
+        run: pytest -v
 
   knowledge-worker:
-
     name: Knowledge Worker
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -147,19 +135,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
-      - name: Install Runtime Dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Install Development Dependencies
-        run: |
           pip install -r requirements-dev.txt
 
       - name: Ruff
-        run: |
-          python -m ruff check .
+        run: ruff check .
+
+      - name: MyPy
+        run: mypy app
 
       - name: Tests with Coverage
         run: |
@@ -169,5 +157,69 @@ jobs:
             --cov-report=term
 
       - name: Build Docker Image
+        run: docker build -t knowledge-worker .
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-worker-coverage
+          path: projects/knowledge-worker/coverage.xml
+
+  rag-assistant:
+    name: RAG Assistant
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: projects/rag-assistant
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Dependencies
         run: |
-          docker build -t knowledge-worker .
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Ruff
+        run: ruff check .
+
+      - name: MyPy
+        run: mypy app
+
+      - name: Tests with Coverage
+        run: |
+          pytest -v \
+            --cov=app \
+            --cov-report=xml \
+            --cov-report=term
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: rag-assistant-coverage
+          path: projects/rag-assistant/coverage.xml
+
+  quality-gate:
+    name: Quality Gate
+
+    needs:
+      - hello-agent
+      - tool-calling
+      - structured-output
+      - evaluation
+      - knowledge-worker
+      - rag-assistant
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Quality Gate Passed
+        run: |
+          echo "All validation pipelines succeeded."
