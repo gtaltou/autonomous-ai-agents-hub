@@ -55,7 +55,7 @@ temp/
 chroma/
 
 # Vector Stores
-vectorstore/
+DS_vectostores/
 
 # Local Databases
 *.db

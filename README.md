@@ -1,295 +1,467 @@
- # 🤖 Autonomous AI Agents Hub
-
+# 🤖 Autonomous AI Agents Hub
 
 [![CI](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/gtaltou/autonomous-ai-agents-hub/actions/workflows/ci.yml)
 
 ![Coverage](assets/badges/coverage.svg)
 
-![Python](https://img.shields.io/badge/python-3.12-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
-
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![OpenAI](https://img.shields.io/badge/OpenAI-Agents_SDK-green)
-![Status](https://img.shields.io/badge/Status-Active-success)
+![RAG](https://img.shields.io/badge/RAG-Semantic_Search-purple)
+![Docker](https://img.shields.io/badge/Docker-Supported-blue)
+![CI/CD](https://img.shields.io/badge/GitHub_Actions-Enabled-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+---
 
-Strategic portfolio dedicated to Agentic AI Engineering, progressing from simple agents to autonomous organizations.
+## Executive Summary
 
+**Autonomous AI Agents Hub** is a strategic engineering portfolio dedicated to the design, implementation, evaluation, deployment and operation of modern AI systems.
 
-# 🚀
-A structured engineering roadmap focused on designing, evaluating and deploying production-ready AI agent systems.
+The repository documents a progressive journey from foundational agent architectures to advanced autonomous organizations using:
 
-This repository documents the progressive implementation of modern Agentic AI architectures, from OpenAI Agents SDK fundamentals to advanced multi-agent ecosystems powered by RAG, MCP, LangGraph, CrewAI and AutoGen.
+- OpenAI Agents SDK
+- Retrieval-Augmented Generation (RAG)
+- Model Context Protocol (MCP)
+- LangGraph
+- CrewAI
+- AutoGen
+- Multi-Agent Architectures
+
+The objective is to build production-oriented AI systems while maintaining professional software engineering standards, including testing, continuous integration, observability, deployment readiness and architectural governance.
 
 ---
 
-## 🚀 Architecture & Projects Roadmap
+# 📚 Table of Contents
 
-| ID | Project | Business Objective | Core Technologies | Status |
-|:---:|:---|:---|:---|:---:|
-| 01 | 🔍 `./projects/research-assistant/` | Multi-agent research and fact verification | OpenAI Agents SDK, Handoffs, Structured Outputs | ✅ |
-| 02 | 📚 `./projects/knowledge-worker/` | Enterprise knowledge retrieval | RAG, Embeddings, ChromaDB | ✅|
-| 03 | 🔧 `./projects/developer-assistant/` | AI-powered engineering copilot | MCP, GitHub, Filesystem Tools | 🚧 |
-| 04 | 💻 `./projects/code-review-agent/` | Automated code quality analysis | OpenAI Agents SDK, Evaluation | ⏳ |
-| 05 | 🎧 `./projects/customer-support-agent/` | Intelligent support platform | RAG, MCP, Memory | ⏳ |
-| 06 | ✍️ `./projects/content-factory/` | AI content production pipeline | CrewAI, Multi-Agent Workflows | ⏳ |
-| 07 | 🏢 `./projects/recruiting-agent/` | Resume screening and candidate ranking | Embeddings, RAG, Classification | ⏳ |
-| 08 | 🤝 `./projects/autonomous-team/` | Multi-role AI collaboration | LangGraph, State Management | ⏳ |
-| 09 | ⚙️ `./projects/software-engineering-team/` | Autonomous software delivery | AutoGen, Agent Delegation | ⏳ |
-| 10 | 🌐 `./projects/autonomous-organization/` | End-to-end AI workforce | LangGraph + MCP + RAG + Memory | ⏳ |
+- [🚀 Portfolio Overview](#-portfolio-overview)
+- [📈 Program Evolution](#-program-evolution)
+- [🏛 Architecture Overview](#-architecture-overview)
+- [🧩 Core Architecture Components](#-core-architecture-components)
+- [🔄 Data Flow Architecture](#-data-flow-architecture)
+- [🚀 Deployment Architecture](#-deployment-architecture)
+- [🌍 Environment Strategy](#-environment-strategy)
+- [🔄 Rollback Strategy](#-rollback-strategy)
+
+# 🚀 Portfolio Overview
+
+| Project | Purpose | Status |
+|----------|----------|----------|
+| Research Assistant | Multi-Agent Research Platform | ✅ Released |
+| Knowledge Worker | Knowledge Analytics Platform | ✅ Released |
+| RAG Assistant | Semantic Retrieval Platform | ✅ Released |
+| MCP Developer Assistant | Tool-Augmented Engineering Copilot | 🚧 In Progress |
+| Code Review Agent | Automated Code Quality Platform | ⏳ Planned |
+| Customer Support Agent | RAG-Enabled Support Platform | ⏳ Planned |
+| Content Factory | Autonomous Content Production | ⏳ Planned |
+| Recruiting Agent | Candidate Intelligence Platform | ⏳ Planned |
+| Autonomous Team | Collaborative AI Workforce | ⏳ Planned |
+| Software Engineering Team | Autonomous Software Delivery | ⏳ Planned |
+| Autonomous Organization | End-to-End Agent Ecosystem | ⏳ Planned |
 
 ---
 
-## 🏛 Detailed Architecture
 
-The repository follows a progressive engineering roadmap, moving from foundational agent concepts to enterprise-grade autonomous systems.
+# 📈 Program Progress
+
+| Domain | Progress |
+|:---|:---:|
+| Repository Foundation | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| OpenAI Agents SDK | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| Research Assistant | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| Knowledge Worker | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| REST API Engineering | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| DevOps & Delivery | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| RAG Systems | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| MCP Ecosystem | 🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10% |
+| LangGraph | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
+| CrewAI | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
+| AutoGen | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
+
+
+---
+
+# 📈 Program Evolution
 
 ```mermaid
-flowchart TB
+flowchart TD
 
     A[Repository Foundation]
 
     A --> B[OpenAI Agents SDK]
 
-    B --> B1[Hello Agent]
-    B --> B2[Tool Calling]
-    B --> B3[Structured Outputs]
-    B --> B4[Evaluation]
+    B --> C[Research Assistant]
 
-    B --> C[RAG Systems]
+    C --> D[Knowledge Worker]
 
-    C --> C1[Embeddings]
-    C --> C2[Vector Databases]
-    C --> C3[Semantic Search]
+    D --> E[RAG Assistant]
 
-    C --> D[MCP Integration]
+    E --> F[MCP Developer Assistant]
 
-    D --> D1[GitHub]
-    D --> D2[Filesystem]
-    D --> D3[External APIs]
-    D --> D4[Enterprise Systems]
+    F --> G[Multi-Agent Systems]
 
-    D --> E[Multi-Agent Systems]
+    G --> H[Autonomous Organization]
 
-    E --> E1[CrewAI]
-    E --> E2[LangGraph]
-    E --> E3[AutoGen]
-
-    E --> F[Research Assistant]
-    E --> G[Knowledge Worker]
-    E --> H[Developer Assistant]
-
-    F --> I[Autonomous Organization]
-    G --> I
-    H --> I
+    style A fill:#E3F2FD
+    style B fill:#BBDEFB
+    style C fill:#C8E6C9
+    style D fill:#C8E6C9
+    style E fill:#D1C4E9
+    style F fill:#FFE0B2
+    style G fill:#FFCCBC
+    style H fill:#EF9A9A
 ```
 
-### Architectural Layers
+---
 
-| Layer | Purpose |
-|:---|:---|
-| Repository Foundation | Engineering standards, testing, CI/CD |
-| OpenAI Agents SDK | Agent lifecycle, tools, structured outputs |
-| RAG Systems | Knowledge retrieval and memory |
-| MCP Integration | Real-world external systems |
-| Multi-Agent Systems | Agent collaboration and orchestration |
-| Autonomous Organization | End-to-end AI workforce |
+# 🏛 Architecture Overview
+
+The repository follows a layered architecture strategy designed to progressively evolve from individual AI capabilities to fully autonomous organizations.
+
+## Architectural Domains
+
+| Domain | Objective |
+|----------|----------|
+| Foundation | Engineering Standards & Tooling |
+| Agent Engineering | Agent Lifecycle Management |
+| Knowledge Systems | Analytics & Knowledge Reuse |
+| Semantic AI | Embeddings & Retrieval |
+| MCP Integration | Tool-Augmented Agents |
+| Multi-Agent Systems | Collaboration & Orchestration |
+| Autonomous Organizations | End-to-End AI Workforce |
 
 ---
 
-## 🏗 Engineering Roadmap
+# 🧩 Core Architecture Components
 
-| Stage | Focus | Technologies |
-|:---|:---|:---|
-| 🟢 Foundation | Single-Agent Systems | OpenAI Agents SDK |
-| 🔵 Knowledge Systems | Retrieval & Memory | Embeddings, RAG, ChromaDB |
-| 🟣 External Integrations | Tool-Based Agents | MCP |
-| 🟠 Multi-Agent Collaboration | Autonomous Teams | CrewAI, AutoGen |
-| 🔴 Workflow Orchestration | Stateful Agent Systems | LangGraph |
-| ⚫ Production Engineering | Monitoring & Evaluation | LangSmith, OpenTelemetry |
-
----
-
-## ✅ Implemented Foundations
-
-### OpenAI Agents SDK Fundamentals
-
-| Example | Description | Location |
-|:---|:---|:---|
-| Hello Agent | First OpenAI Agent implementation | `examples/beginner/hello-agent/` |
-| Tool Calling | Tool-enabled agent using Function Tools | `examples/beginner/tool-calling/` |
-| Structured Outputs | Typed responses using Pydantic models | `examples/beginner/structured-output/` |
-| Evaluation | Automated output validation and scoring | `examples/beginner/evaluation/` |
-
-**Status:** ✅ Completed (4/4)
-
----
-
-## 📦 Releases
-
-| Version | Milestone |
-|:---:|:---|
-| v0.1.0 | Repository Foundation |
-| v0.2.0 | Hello Agent |
-| v0.3.0 | Tool Calling |
-| v0.4.0 | Structured Outputs |
-| v0.5.0 | Evaluation |
-| v0.6.0 | Research Assistant |
-| v1.0.0 | Production Engineering Foundations |
-| v1.1.0 | Knowledge Worker Complete |
-
-### Latest Release
+## Foundation Layer
 
 ```text
-v1.1.0
-
-Completed:
-✅ Top Reports
-✅ Related Reports
-✅ Topic Discovery
-✅ Top Topics
-✅ Recommendations
-✅ JSON Export
-✅ CLI Interface
-
-Quality:
-✅ 62 Tests Passed
-✅ Ruff Passing
-✅ Production Ready
+Repository Structure
+Documentation
+Quality Gates
+Testing Framework
+CI/CD
+Containerization
 ```
 
-### Next Target Release
+## Agent Engineering Layer
 
 ```text
-v1.2.0
-
-Knowledge Worker API
-
-Planned:
-- FastAPI Integration
-- REST Endpoints
-- OpenAPI Documentation
-- API Test Suite
-
-Endpoints:
-- GET /topics
-- GET /top-topics
-- GET /recommendations
-- GET /top-reports
-- GET /related/{topic}
+Agents
+Tools
+Structured Outputs
+Evaluations
+Workflows
 ```
 
+## Knowledge Layer
+
+```text
+Repositories
+Analyzers
+Knowledge Services
+REST APIs
+```
+
+## Semantic Layer
+
+```text
+Chunking
+Embeddings
+Caching
+Vector Stores
+Semantic Retrieval
+RAG Pipelines
+```
+
+## Integration Layer
+
+```text
+MCP
+GitHub
+Filesystem
+External APIs
+Enterprise Systems
+```
+
+## Collaboration Layer
+
+```text
+Coordinator Agents
+Specialized Agents
+Shared Context
+Task Delegation
+Collaborative Execution
+```
+
+---
+
+# 🔄 Data Flow Architecture
+
+## Research Workflow
+
+```mermaid
+flowchart TD
+
+    USER[User]
+
+    USER --> COORD[Coordinator Agent]
+
+    COORD --> SEARCH[Search Agent]
+    COORD --> SUMM[Summarizer Agent]
+    COORD --> FACT[Fact Checker Agent]
+
+    SEARCH --> SOURCES[External Sources]
+
+    SOURCES --> SUMM
+
+    SUMM --> FACT
+
+    FACT --> REPORT[Research Report]
+
+    REPORT --> USER
+
+    style USER fill:#E3F2FD
+    style REPORT fill:#C8E6C9
+```
+
+---
+
+## Knowledge Workflow
+
+```mermaid
+flowchart TD
+
+    REPORTS[Research Reports]
+
+    REPORTS --> REPOSITORY[Repository Layer]
+
+    REPOSITORY --> ANALYSIS[Analysis Layer]
+
+    ANALYSIS --> SERVICE[Knowledge Service]
+
+    SERVICE --> API[REST API]
+
+    SERVICE --> CLI[CLI]
+
+    style REPORTS fill:#E3F2FD
+    style SERVICE fill:#FFE082
+    style API fill:#C8E6C9
+```
+
+---
+
+## Semantic Retrieval Workflow
+
+```mermaid
+flowchart TD
+
+    DOCS[Documents]
+
+    DOCS --> CHUNKING[Chunking]
+
+    CHUNKING --> EMBEDDINGS[Embeddings]
+
+    EMBEDDINGS --> VECTORSTORE[Vector Store]
+
+    QUESTION[User Question]
+
+    QUESTION --> QUERYEMB[Query Embedding]
+
+    QUERYEMB --> RETRIEVAL[Semantic Retrieval]
+
+    VECTORSTORE --> RETRIEVAL
+
+    RETRIEVAL --> CONTEXT[Context Builder]
+
+    CONTEXT --> LLM[OpenAI Model]
+
+    LLM --> ANSWER[Generated Answer]
+
+    ANSWER --> USER[User]
+
+    style DOCS fill:#E3F2FD
+    style VECTORSTORE fill:#D1C4E9
+    style ANSWER fill:#C8E6C9
+```
+
+---
+
+# 🚀 Deployment Architecture
+
+```mermaid
+flowchart LR
+
+    DEV[Developer]
+
+    DEV --> GIT[GitHub Repository]
+
+    GIT --> CI[GitHub Actions]
+
+    CI --> TESTS[Pytest]
+
+    CI --> RUFF[Ruff]
+
+    CI --> MYPY[MyPy]
+
+    TESTS --> RELEASE[Release]
+
+    RUFF --> RELEASE
+
+    MYPY --> RELEASE
+
+    RELEASE --> APP[RAG Platform]
+
+    APP --> OPENAI[OpenAI APIs]
+
+    style DEV fill:#E3F2FD
+    style CI fill:#FFE082
+    style RELEASE fill:#C8E6C9
+```
+
+-erimentation
+- Local Validation
+
+**Infrastructure**
+
+```text
+Python
+Virtual Environment
+Local Runtime
+```
+
+## Staging
+
+**Purpose**
+
+- Integration Testing
+- Release Validation
+
+**Infrastructure**
+
+```text
+Docker
+GitHub Actions
+Automated Validation
+```
+
+## Production
+
+**Target Architecture**
+
+```text
+FastAPI
+Vector Database
+Persistent Cache
+Monitoring
+Container Platform
+```
+
+---
 
 
-## 🛠 Tech Stack
+# 📊 Observability & Metrics
+
+The platform progressively introduces observability practices aligned with modern AI platform engineering.
+
+## Observability Architecture
+
+```mermaid
+flowchart TD
+
+    APP[Application]
+
+    APP --> LOGS[Structured Logs]
+
+    APP --> METRICS[Metrics]
+
+    APP --> TRACES[Tracing]
+
+    LOGS --> DASHBOARD[Observability Dashboard]
+
+    METRICS --> DASHBOARD
+
+    TRACES --> DASHBOARD
+
+    style APP fill:#E3F2FD
+    style DASHBOARD fill:#C8E6C9
+```
+
+## Engineering Metrics
+
+```text
+Tests Passed
+Coverage %
+Build Success Rate
+Release Frequency
+Pull Request Validation
+```
+
+## AI Metrics
+
+```text
+Embedding Requests
+Cache Hit Rate
+Retrieval Latency
+Response Time
+Token Consumption
+Similarity Scores
+```
+
+## Platform Metrics
+
+```text
+Availability
+Error Rate
+Deployment Success Rate
+Recovery Time
+System Health
+```
+
+## Current Quality Baseline
+
+```text
+Knowledge Worker
+-------------
+70 Tests
+92% Coverage
+Docker
+GitHub Actions
+
+RAG Assistant
+-------------
+34 Tests
+100% Coverage
+Ruff Passing
+MyPy Passing
+
+Repository
+----------
+CI/CD Enabled
+Versioned Releases
+Automated Validation
+```
+
+---
+
+# 🛠 Technology Stack
 
 | Category | Technologies |
-|:---|:---|
-| LLM Providers | OpenAI, Anthropic, Groq |
+|-----------|-----------|
+| Language | Python 3.12 |
 | Agent Frameworks | OpenAI Agents SDK, CrewAI, LangGraph, AutoGen |
 | Protocols | MCP |
-| RAG Frameworks | LangChain, LlamaIndex |
-| Vector Databases | ChromaDB, FAISS |
-| Observability | LangSmith, OpenTelemetry |
-| Infrastructure | Docker, GitHub Actions |
-| Language | Python 3.12 |
+| RAG | OpenAI Embeddings, ChromaDB, FAISS |
+| APIs | FastAPI |
+| Validation | Pytest, Ruff, MyPy |
+| CI/CD | GitHub Actions |
+| Containers | Docker |
 | Package Manager | uv |
+| Observability | OpenTelemetry, LangSmith |
 
 ---
 
-## 🚧 Active Development
-
-### Sprint 06 — Knowledge Worker Foundations
-
-The next evolution of the Autonomous AI Agents Hub roadmap.
-
-The Knowledge Worker builds on top of the Research Assistant archive layer and transforms stored reports into reusable knowledge assets.
-
-### Foundation
-
-```text
-✅ Research Assistant v1.0 Completed
-
-    ├── Multi-Agent Workflow
-    ├── Structured Outputs
-    ├── Evaluation Framework
-    ├── Report Repository
-    ├── Report History
-    ├── Report Search
-    ├── Report Comparison
-    ├── Report Statistics
-    └── 27 Passing Tests
-```
-
-### Current Objectives
-
-| Capability | Goal |
-|:---|:---|
-| Top Reports | Surface the highest-quality reports |
-| Related Reports | Discover report relationships |
-| Topic Discovery | Identify recurring themes |
-| Recommendations | Suggest future research directions |
-| Knowledge Maps | Visualize knowledge connections |
-| Cross-Report Analysis | Generate insights across reports |
-
-### Planned Development Flow
-
-```text
-Top Reports
-        ↓
-
-Related Reports
-        ↓
-
-Topic Discovery
-        ↓
-
-Recommendations
-        ↓
-
-Knowledge Maps
-        ↓
-
-Cross-Report Analysis
-```
-
-### Strategic Outcome
-
-```text
-Research Assistant
-        ↓
-Knowledge Worker
-        ↓
-Developer Assistant
-        ↓
-Multi-Agent Systems
-        ↓
-Autonomous Organization
-```
-
-The objective is no longer simply generating reports.
-
-The objective is transforming accumulated reports into a reusable and evolving knowledge base.
-
----
-
-
-```text
-User
- │
- ▼
-Coordinator Agent
- │
- ├── Search Agent
- ├── Summarizer Agent
- └── Fact Checker Agent
-```
-
-**Goal:** Build a complete multi-agent research workflow using OpenAI Agents SDK.
-
----
-
-## 📂 Repository Structure
+# 📂 Repository Structure
 
 ```text
 autonomous-ai-agents-hub
@@ -304,6 +476,7 @@ autonomous-ai-agents-hub
 ├── projects/
 │   ├── research-assistant/
 │   ├── knowledge-worker/
+│   ├── rag-assistant/
 │   ├── developer-assistant/
 │   ├── code-review-agent/
 │   ├── customer-support-agent/
@@ -314,386 +487,371 @@ autonomous-ai-agents-hub
 │   └── autonomous-organization/
 │
 ├── docs/
+│
 ├── .github/
 │
 ├── README.md
 ├── ROADMAP.md
-├── requirements.txt
-└── LICENSE
+├── CHANGELOG.md
+├── LICENSE
+└── pyproject.toml
 ```
 
 ---
 
-## 🎯 Technical Capabilities
+# ✅ Delivered Projects
 
-| Domain | Skills |
-|:---|:---|
-| Agent Engineering | Agents, Handoffs, Tool Calling |
-| Structured AI Outputs | Pydantic, Validation, Output Schemas |
-| AI Evaluation | Scoring, Quality Gates, Validation |
-| Knowledge Systems | RAG, Embeddings, Vector Search |
-| Multi-Agent Systems | CrewAI, LangGraph, AutoGen |
-| AI Architecture | Orchestration, Coordination, State Management |
-| Production AI | Monitoring, Evaluation, Security |
-| Software Engineering | Python, Testing, CI/CD |
+## 🔍 Research Assistant
+
+Production-oriented multi-agent research platform built on OpenAI Agents SDK.
+
+### Capabilities
+
+```text
+Coordinator Agent
+Search Agent
+Summarizer Agent
+Fact Checker Agent
+Structured Outputs
+Evaluation Framework
+Report Repository
+Markdown Reporting
+```
+
+### Outcome
+
+```text
+First production-ready multi-agent system delivered.
+```
 
 ---
 
-## ⚡ Quick Start
+## 📚 Knowledge Worker
+
+Knowledge analytics and exploitation platform built on top of research outputs.
+
+### Capabilities
+
+```text
+Topic Discovery
+Top Topics
+Recommendations
+Related Reports
+JSON Export
+REST API
+OpenAPI
+Swagger UI
+Docker
+CI/CD
+```
+
+### Quality
+
+```text
+70 Tests
+92% Coverage
+Ruff Passing
+Docker Support
+GitHub Actions
+```
+
+### Status
+
+```text
+Released
+```
+
+---
+
+## 🧠 RAG Assistant
+
+Semantic Retrieval-Augmented Generation platform.
+
+### Capabilities
+
+```text
+Text Chunking
+OpenAI Embeddings
+Cached Embeddings
+Semantic Retrieval
+Vector Similarity Search
+Semantic Vector Store
+Semantic RAG Pipeline
+End-to-End Retrieval Workflow
+```
+
+### Quality
+
+```text
+34 Tests
+100% Coverage
+Ruff Passing
+MyPy Passing
+```
+
+### Status
+
+```text
+Released
+```
+
+---
+
+# 🏆 Engineering Standards
+
+All projects follow consistent engineering principles.
+
+## Architecture
+
+```text
+Layered Architecture
+Separation of Concerns
+Dependency Injection
+Modular Design
+```
+
+## Quality
+
+```text
+Unit Tests
+Integration Tests
+End-to-End Validation
+Type Safety
+Static Analysis
+```
+
+## Delivery
+
+```text
+CI/CD
+Docker
+GitHub Actions
+Versioned Releases
+Documentation
+```
+
+## Governance
+
+```text
+Roadmap-Driven Development
+Architecture Documentation
+Release Management
+Continuous Improvement
+```
+
+---
+
+# ✅ Quality Gates
+
+The repository enforces automated quality validation before changes reach production-ready status.
+
+```mermaid
+flowchart LR
+
+    CODE[Source Code]
+
+    CODE --> TESTS[Pytest]
+
+    CODE --> RUFF[Ruff]
+
+    CODE --> MYPY[MyPy]
+
+    TESTS --> GATE[Quality Gate]
+
+    RUFF --> GATE
+
+    MYPY --> GATE
+
+    GATE --> PASS[Release Candidate]
+
+    style CODE fill:#E3F2FD
+    style GATE fill:#FFE082
+    style PASS fill:#C8E6C9
+```
+
+### Validation Stack
+
+```text
+Unit Tests
+Integration Tests
+API Tests
+Coverage Validation
+Static Analysis
+Type Checking
+CI/CD Verification
+```
+
+---
+
+# ⚡ Quick Start
+
+## Clone Repository
 
 ```bash
 git clone https://github.com/gtaltou/autonomous-ai-agents-hub.git
 
 cd autonomous-ai-agents-hub
-
-uv venv
-
-uv sync
 ```
 
----
-
-## 🔧 Complete Installation
-
-### Prerequisites
-
-- Python 3.12+
-- Git
-- OpenAI API Key
-- uv (recommended)
-
----
-
-### Clone Repository
-
-```bash
-git clone https://github.com/gtaltou/autonomous-ai-agents-hub.git
-
-cd autonomous-ai-agents-hub
-```
-
----
-
-### Create Virtual Environment
+## Create Environment
 
 ```bash
 uv venv
 ```
 
-Activate the environment.
-
-#### Windows
+### Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-#### Linux / macOS
+### Linux / macOS
 
 ```bash
 source .venv/bin/activate
-
-
-
-## 🧩 Engineering Progression
-
-```mermaid
-flowchart LR
-
-    A[Hello Agent]
-    --> B[Tool Calling]
-    --> C[Structured Outputs]
-    --> D[Evaluation]
-    --> E[Research Assistant]
-    --> F[RAG Systems]
-    --> G[MCP Integration]
-    --> H[Multi-Agent Systems]
-    --> I[Autonomous Organization]
 ```
 
-This roadmap illustrates the progressive acquisition of capabilities, from foundational agent development to fully autonomous AI ecosystems.
+## Install Dependencies
+
+```bash
+uv sync
+```
 
 ---
 
-## 🔬 Research Assistant Target Architecture
+# 🔧 Installation
+
+## Prerequisites
+
+```text
+Python 3.12+
+Git
+uv
+OpenAI API Key
+```
+
+## Install Dependencies
+
+```bash
+uv sync
+```
+
+## Run Tests
+
+```bash
+pytest
+```
+
+## Run Ruff
+
+```bash
+ruff check .
+```
+
+## Run MyPy
+
+```bash
+mypy .
+```
+
+---
+
+# 📚 Documentation
+
+| Document | Purpose |
+|-----------|-----------|
+| `ROADMAP.md` | Strategic roadmap and future milestones |
+| `CHANGELOG.md` | Release history |
+| `examples/` | Foundational examples and learning assets |
+| `projects/` | Production-oriented AI applications |
+| `docs/` | Technical documentation |
+
+---
+
+# 📈 Repository Evolution
 
 ```mermaid
 flowchart TD
 
-    User[User]
+    A[Foundation]
 
-    User --> Coordinator[Coordinator Agent]
+    A --> B[Agent Engineering]
 
-    Coordinator --> Search[Search Agent]
-    Coordinator --> Summary[Summarizer Agent]
-    Coordinator --> FactCheck[Fact Checker Agent]
+    B --> C[Knowledge Systems]
 
-    Search --> Sources[External Sources]
+    C --> D[Semantic AI]
 
-    Sources --> Summary
+    D --> E[MCP Integration]
 
-    Summary --> FactCheck
+    E --> F[Multi-Agent Systems]
 
-    FactCheck --> Report[Research Report]
+    F --> G[Autonomous Organizations]
 
-    Report --> User
-```
-
-The Research Assistant serves as the first production-oriented project and the foundation for future RAG, MCP and multi-agent systems.
-
----
-
-## 📊 Project Status
-
-| Area | Status |
-|:---|:---:|
-| Repository Foundation | ✅ Completed |
-| OpenAI Agents SDK Fundamentals | ✅ Completed |
-| Research Assistant | ✅ Completed |
-| Enterprise RAG Systems |  🚧 In Progress|
-| MCP Integrations | ⏳ Planned |
-| Multi-Agent Systems | ⏳ Planned |
-| Autonomous Organizations | ⏳ Planned |
-
----
-
-## 📈 Repository Progress
-
-| Area | Progress |
-|:---|:---:|
-| Repository Foundation | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
-| OpenAI Agents SDK | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
-| Research Assistant | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
-| Production Engineering | 🟩🟩🟩🟩🟩🟩🟩🟩🟩⬜ 90% |
-| Knowledge Worker | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
-| RAG Systems | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
-| MCP Integration | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
-| LangGraph | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
-| CrewAI | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
-| AutoGen | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0% |
-
-### Recently Completed
-
-```text
-✅ Knowledge Worker v1.2.1
-
-Architecture
-
-- Repository Layer
-- Analyzer Layer
-- Service Layer
-- REST API Layer
-
-Capabilities
-
-- Top Reports
-- Related Reports
-- Topic Discovery
-- Top Topics
-- Recommendations
-
-Interfaces
-
-- Command-Line Interface
-- JSON Export
-- FastAPI REST API
-
-Documentation
-
-- OpenAPI Specification
-- Swagger UI
-
-Engineering
-
-- Docker Support
-- GitHub Actions CI
-- Monorepo Quality Pipeline
-
-Quality Metrics
-
-- 70 Passing Tests
-- 92% Code Coverage
-- Ruff Passing
-
-Testing Strategy
-
-- Unit Tests
-- Integration Tests
-- API Tests
-- End-to-End API Workflow
-
-Status
-
-- Production Ready
+    style A fill:#E3F2FD
+    style B fill:#BBDEFB
+    style C fill:#C8E6C9
+    style D fill:#D1C4E9
+    style E fill:#FFE082
+    style F fill:#FFCCBC
+    style G fill:#EF9A9A
 ```
 
 ---
 
-### ✅ Completed Foundations
+# 🤝 Contributing
 
-- Repository Foundation
-- Hello Agent
-- Tool Calling
-- Structured Outputs
-- Evaluation
-- Research Assistant v1.0
-- Knowledge Worker v1.2.1
-- Docker Foundation
-- Continuous Integration
+Contributions, feedback and architectural discussions are welcome.
 
-### 🚀 Development Roadmap
+Examples of valuable contributions:
 
-```text
-✅ Repository Foundation
+- New AI agent projects
+- MCP integrations
+- RAG enhancements
+- Evaluation frameworks
+- Testing strategies
+- Documentation improvements
+- Engineering best practices
 
-✅ OpenAI Agents SDK Fundamentals
-    ├── Hello Agent
-    ├── Tool Calling
-    ├── Structured Outputs
-    ├── Evaluation
-    ├── Retry Strategies
-    └── Production Patterns
+Please open an issue or submit a pull request to contribute.
 
-✅ Research Assistant v1.0
-    ├── Multi-Agent Workflow
-    ├── Structured Outputs
-    ├── Serialization Layer
-    ├── Logging
-    ├── Metrics
-    ├── Markdown Export
-    ├── Evaluation Framework
-    ├── Report Repository
-    ├── Report History
-    ├── Report Search
-    ├── Report Comparison
-    ├── Report Statistics
-    ├── Real Report Filtering
-    └── 27 Passing Tests
+---
 
-🚧 Knowledge Worker
-    ├── Top Reports
-    ├── Related Reports
-    ├── Topic Discovery
-    ├── Recommendations
-    └── Knowledge Maps
+# 📄 License
 
-⏳ RAG Systems
+This repository is distributed under the MIT License.
 
-⏳ MCP Integration
+See the `LICENSE` file for additional details.
 
-⏳ LangGraph
+---
 
-⏳ CrewAI
+# 🚀 Mission
 
-⏳ AutoGen
+> Design, build, evaluate, deploy and operate production-grade AI systems while progressing from individual intelligent agents to fully autonomous organizations.
 
-⏳ Autonomous Organization
-```
+```mermaid
+flowchart TD
 
-### 🎯 Next Major Milestone
+    A[Single Agent]
 
-```text
-✅ Research Assistant v1.0
+    A --> B[Tool-Enabled Agent]
 
-✅ Knowledge Worker v1.1.0
-   - 62 Tests Passed
-   - Ruff Passing
-   - CLI Complete
-   - JSON Export Complete
+    B --> C[Knowledge Agent]
 
-✅ Sprint 07 — Knowledge Worker API
+    C --> D[RAG Systems]
 
-Goals:
-- FastAPI Integration
-- REST Endpoints
-- OpenAPI Documentation
-- API Test Suite
+    D --> E[MCP Integration]
 
-Planned Endpoints:
-- GET /topics
-- GET /top-topics
-- GET /recommendations
-- GET /top-reports
-- GET /related/{topic}
-```
+    E --> F[Multi-Agent Teams]
 
-Objectives:
+    F --> G[Autonomous Departments]
 
-- Reuse accumulated research knowledge
-- Identify top-performing reports
-- Discover related reports
-- Detect recurring topics
-- Generate research recommendations
-- Build report-to-report relationships
-- Create knowledge maps
-- Enable cross-report analysis
+    G --> H[Autonomous Organizations]
 
-Planned Deliverables:
-
-```text
-Top Reports
-        ↓
-Related Reports
-        ↓
-Topic Discovery
-        ↓
-Recommendations
-        ↓
-Knowledge Maps
-        ↓
-Cross-Report Analysis
+    style A fill:#E3F2FD
+    style D fill:#D1C4E9
+    style H fill:#EF9A9A
 ```
 
 ---
 
-## 🌟 Long-Term Vision
-
-Build a comprehensive engineering portfolio demonstrating the design, evaluation, deployment and orchestration of modern AI agent systems.
-
-```text
-Single Agent
-    ↓
-Tool-Enabled Agent
-    ↓
-Structured AI System
-    ↓
-Knowledge Agent
-    ↓
-MCP Agent
-    ↓
-Multi-Agent Team
-    ↓
-Autonomous Department
-    ↓
-Autonomous Organization
-```
-
-The ultimate goal of this repository is to progressively build and document increasingly sophisticated AI systems while maintaining professional software engineering standards, automated testing, evaluation workflows and production-ready practices.
-
----
-
-## 🤝 Contributing
-
-Contributions, suggestions and discussions are welcome.
-
-Please open an issue or submit a pull request if you would like to improve any example, project or architectural pattern.
-
----
-
-## 📄 License
-
-This project is distributed under the MIT License.
-
-See the `LICENSE` file for details.
-
----
-
-## 📚 Additional Documentation
-
-- `ROADMAP.md` — Detailed learning roadmap and project milestones
-- `examples/` — Fundamental building blocks and reference implementations
-- `projects/` — Production-oriented AI systems developed throughout the roadmap
-
----
-
-**Designing, evaluating and deploying production-grade AI Agent Systems.**
+**Autonomous AI Agents Hub** is both an engineering portfolio and a long-term exploration of Agentic AI, Retrieval-Augmented Generation, tool-enabled systems, workflow orchestration and autonomous organizational architectures.
